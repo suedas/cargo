@@ -8,7 +8,9 @@ TagManager:
   - collectible
   - finish
   - Missile
-  - ss
+  - motor
+  - car
+  - plane
   layers:
   - Default
   - TransparentFX

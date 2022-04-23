@@ -45,17 +45,20 @@ public class SwerveMovement : MonoBehaviour
 
         var swerve = Time.deltaTime * swerveSpeed * deltaPos;
         swerve = Mathf.Clamp(swerve, -maxSwerveAmount, maxSwerveAmount);
+        if (transform.childCount>0)
+        {
+            var x = transform.GetChild(0).transform.position.x + swerve;
+            if (x < maxHorizontalDistance && x > -maxHorizontalDistance)
+                if (checkDistanceChange)
+                {
+                    if (Mathf.Abs(x - lastPositonChange) < maxHorizontalChange) transform.GetChild(0).transform.Translate(swerve, 0, 0);
+                }
+                else
+                    transform.GetChild(0).transform.Translate(swerve, 0, 0);
 
-        var x = transform.GetChild(0).transform.position.x + swerve;
-        if (x < maxHorizontalDistance && x > -maxHorizontalDistance)
-            if (checkDistanceChange)
-            {
-                if (Mathf.Abs(x - lastPositonChange) < maxHorizontalChange) transform.GetChild(0).transform.Translate(swerve, 0, 0);
-            }
-            else
-                transform.GetChild(0).transform.Translate(swerve, 0, 0);
 
-
-        lastPositonChange = x;
+            lastPositonChange = x;
+        }
+        
     }
 }

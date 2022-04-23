@@ -45,10 +45,10 @@ public class NodeMovement : MonoBehaviour
 
             cargo[index].transform.DOScale(scale, 0.1f).OnComplete(() =>
             cargo[index].transform.DOScale(new Vector3(1, 1, 1), 0.1f));
-            yield return new WaitForSeconds(0.001f);
+            yield return new WaitForSeconds(0.05f);
         }
-       
-       
+      
+
     }
     public void Lerp()
     {

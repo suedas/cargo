@@ -90,5 +90,6 @@ public class UiController : MonoBehaviour
 	public void OpenLosePanel()
 	{
 		losePanel.SetActive(true);
+		PlayerMovement.instance.speed = 0;
 	}
 }
