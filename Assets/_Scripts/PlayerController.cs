@@ -4,6 +4,8 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
+using Cinemachine;
+
 public class PlayerController : MonoBehaviour
 {
     #region Singleton
@@ -16,21 +18,25 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     public GameObject target;
-    public TextMeshProUGUI motorText;
+    public GameObject f;
+    public CinemachineVirtualCamera vcam;
+    public GameObject money;
+    public GameObject moneyTarget;
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("collectible"))
         {
             // score islemleri.. animasyon.. efect.. collectiblen destroy edilmesi.. 
             if (!NodeMovement.instance.cargo.Contains(other.gameObject))
-            {
-               
-                other.gameObject.tag = "Untagged";         
+            {               
+                other.gameObject.tag = "Untagged";
+                //other.gameObject.GetComponent<BoxCollider>().isTrigger = false;
                 NodeMovement.instance.StackCube(other.gameObject, NodeMovement.instance.cargo.Count -1);
 
             }
 
-           // Debug.Log("collectible");
             
             GameManager.instance.IncreaseScore();
 
@@ -39,6 +45,7 @@ public class PlayerController : MonoBehaviour
         {
             // score islemleri.. animasyon.. efect.. obstaclein destroy edilmesi.. 
             // oyun bitebilir bunun kontrolu de burada yapilabilir..
+            StartCoroutine(Shake());
             Debug.Log("obstacle");
             GameManager.instance.DecreaseScore();
         }
@@ -50,85 +57,185 @@ public class PlayerController : MonoBehaviour
             // ornek olarak asagidaki kodda score 10 dan buyukse kazan degilse kaybet dedik ancak
             // bazý oyunlarda farkli parametlere göre kontrol etmek veya oyun sonunda karakterin yola devam etmesi gibi
             // durumlarda developer burayý kendisi duzenlemelidir.
-            GameManager.instance.isContinue = false;
-            Debug.Log(GameManager.instance.levelScore);
-            if (GameManager.instance.levelScore > 10) UiController.instance.OpenWinPanel();
-            else UiController.instance.OpenLosePanel();
+            int listCount = NodeMovement.instance.cargo.Count;
+            StartCoroutine(goComplete(listCount));
+
+            
         }
         else if (other.CompareTag("motor"))
         {
-
-
             //StartCoroutine( destroyet(2));
-            StartCoroutine(yolla(2));
-           
-           
+            StartCoroutine(goMotor(2));
             other.gameObject.GetComponent<BoxCollider>().enabled = false;
-            
-           
+                   
             Debug.Log("motor");
-            Debug.Log(gameObject.transform.childCount);
+         
         }
         else if (other.CompareTag("car"))
         {
-            //StartCoroutine(yolla(5));
-            //other.gameObject.GetComponent<BoxCollider>().enabled = false;
+           
+            StartCoroutine(goCar(3));
+            other.gameObject.GetComponent<BoxCollider>().enabled = false;
 
         }
         else if (other.CompareTag("plane"))
         {
-            //StartCoroutine(yolla(8));
-            //other.gameObject.GetComponent<BoxCollider>().enabled = false;
+            StartCoroutine(goPlane(4));
+            other.gameObject.GetComponent<BoxCollider>().enabled = false;
 
         }
 
     }
-    public IEnumerator yolla(int adet)
+    public IEnumerator goMotor(int adet)
     {
-        // float y =0;
-
-        target = GameObject.Find("Target");
+        target = GameObject.Find("motorTarget");   
         float y = target.transform.position.y;
         for (int i = 0; i < adet; i++)
         {
+            GameManager.instance.isContinue = false;
             if (gameObject.transform.childCount>0)
             {
                 PlayerMovement.instance.speed =2.3f;
-                gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x,y, target.transform.position.z), 1, 1, .2f)
-                .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
+                gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
+                .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
+                );
                 NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-                //int targetChild = target.transform.childCount;
-                //motorText.text = targetChild.ToString();
                 yield return new WaitForSeconds(.5f);
                 y +=1;
-
             }
             else
             {
-                UiController.instance.OpenLosePanel();
+                //UiController.instance.OpenLosePanel();
             }
            
-
         }
-        //yield return new WaitForSeconds(.05f);
-        //Destroy(other);
+        yield return new WaitForSeconds(.5f);
+        GameManager.instance.isContinue = true;
+
+        if (target.transform.childCount == 2)
+        {
+            taskComplete();
+        }
         PlayerMovement.instance.speed = 4f;
     }
-    //public IEnumerator destroyet(int adet)
-    //{
-    //    for (int i = 0; i <adet; i++)
-    //    {
-    //        if (gameObject.transform.childCount>0)
-    //        {
-    //            Destroy(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-    //            NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-    //            PlayerMovement.instance.speed = 0;
 
-    //        }
-    //        yield return new WaitForSeconds(0.5f);
+    public IEnumerator goCar(int adet)
+    {
+        target = GameObject.Find("carTarget");
+        float y = target.transform.position.y;
+        for (int i = 0; i < adet; i++)
+        {
+            GameManager.instance.isContinue = false;
+            if (gameObject.transform.childCount > 0)
+            {
+                PlayerMovement.instance.speed = 2.3f;
+                gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
+                .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
+                );
+                NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
+                yield return new WaitForSeconds(.5f);
+                y += 1;
+            }
+            else
+            {
+               // UiController.instance.OpenLosePanel();
+            }
 
-    //    }
-    //}
+        }
+        yield return new WaitForSeconds(.5f);
+        GameManager.instance.isContinue = true;
+    
+        if (target.transform.childCount == 3)
+        {
+            taskComplete();
+        }
+
+        PlayerMovement.instance.speed = 4f;
+    }
+    public IEnumerator goPlane(int adet)
+    {
+        target = GameObject.Find("planeTarget");
+        float y = target.transform.position.y;
+        for (int i = 0; i < adet; i++)
+        {
+            GameManager.instance.isContinue = false;
+            if (gameObject.transform.childCount > 0)
+            {
+                PlayerMovement.instance.speed = 2.3f;
+                gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
+                .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
+                );
+                NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
+                yield return new WaitForSeconds(.5f);
+                y += 1;
+            }
+            else
+            {
+                //UiController.instance.OpenLosePanel();
+            }
+
+        }
+        yield return new WaitForSeconds(.5f);
+        GameManager.instance.isContinue = true;
+
+        if (target.transform.childCount == 4)
+        {
+            taskComplete();
+        }
+
+        PlayerMovement.instance.speed = 4f;
+    }
+    public IEnumerator goComplete(int adet)
+    {
+       // yield return new WaitForSeconds(.05f);
+        target = GameObject.Find("completeTarget");
+        float y = target.transform.position.y;
+        for (int i = 0; i < adet; i++)
+        {
+            GameManager.instance.isContinue = false;
+            if (gameObject.transform.childCount > 0)
+            {
+                PlayerMovement.instance.speed = 1f;
+                gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
+                .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
+                );
+                NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
+                yield return new WaitForSeconds(1.2f);
+                y += 1;
+             
+            }
+        }
+        yield return new WaitForSeconds(.05f);
+        GameManager.instance.isContinue = false;
+        PlayerMovement.instance.speed = 0;
+
+        StartCoroutine(instantiateMoney(target.transform.childCount));
+        //Debug.Log(GameManager.instance.levelScore);
+        //if (GameManager.instance.levelScore > 10) UiController.instance.OpenWinPanel();
+        //else UiController.instance.OpenLosePanel();
+    }
+    public void taskComplete()
+    {
+        if (NodeMovement.instance.cargo.Count > 0)
+        {
+            target.transform.DOMove(new Vector3(0.1f, 0, 111f), 2f).OnComplete(() => Destroy(target));
+
+        }
+    }
+    public IEnumerator instantiateMoney(int adet)
+    {
+        for (int i = 0; i < adet; i++)
+        {
+            float y = gameObject.transform.position.y;
+           Instantiate(money,new Vector3( gameObject.transform.position.x,y,gameObject.transform.position.z), Quaternion.identity);
+            y += 1;
+            yield return new WaitForSeconds(.05f);
+
+        }
+
+    }
+
+
 
     /// <summary>
     /// next level veya restart level butonuna tiklayinca karakter sifir konumuna tekrar alinir. (baslangic konumu)
@@ -151,4 +258,13 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.levelScore = 0;
         GameManager.instance.isContinue = true;
 	}
+    public IEnumerator Shake()
+    {
+        
+        vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 1;
+        vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 1;
+        yield return new WaitForSeconds(0.5f);
+        vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0;
+        vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 0;
+    }
 }

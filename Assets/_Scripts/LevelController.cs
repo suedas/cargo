@@ -22,13 +22,14 @@ public class LevelController : MonoBehaviour
 
 	private void Start()
 	{
-		//PlayerPrefs.DeleteAll();
+		PlayerPrefs.DeleteAll();
 		totalLevelNo = PlayerPrefs.GetInt("totallevelno");
-		if (totalLevelNo == 0)
-		{
-			totalLevelNo = 1;
-			PlayerPrefs.SetInt("totallevelno", totalLevelNo);
-		}
+		//if (totalLevelNo == 0)
+		//{
+		//	totalLevelNo = 1;
+		//	PlayerPrefs.SetInt("totallevelno", totalLevelNo);
+		//}
+		totalLevelNo = 1;
 		CreateLevel();
 
 	}

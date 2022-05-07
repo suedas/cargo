@@ -11,6 +11,7 @@ TagManager:
   - motor
   - car
   - plane
+  - target
   layers:
   - Default
   - TransparentFX

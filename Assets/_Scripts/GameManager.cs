@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		//isContinue = true;
+		isContinue = true;
 		score = PlayerPrefs.GetInt("score");
 	}
 
@@ -51,4 +51,5 @@ public class GameManager : MonoBehaviour
 		PlayerPrefs.SetInt("score", score);
 		UiController.instance.SetScoreText();
 	}
+
 }

@@ -9,7 +9,7 @@ public class NodeMovement : MonoBehaviour
     //public GameObject player;
     //public Transform connectedNode;
     public float delay = 0.25f;
-
+    public int count;
     #region Singleton
     public static NodeMovement instance;
     void Awake()
@@ -22,23 +22,24 @@ public class NodeMovement : MonoBehaviour
    
     public void StackCube(GameObject other , int index)
     {
+       
         other.transform.parent = transform;
         Vector3 newPos = cargo[index].transform.localPosition;
         newPos.z += 1;
         other.transform.localPosition = newPos;
         cargo.Add(other);
+        count = cargo.Count - 1;
         StartCoroutine(Scale());
        
         
     }
     public IEnumerator Scale()
     {
-        Debug.Log("scale1");
-        //fora hiç girmiyor ???
-        int count = cargo.Count - 1;
-        for (int i = count; i < 0; i--)
+    
+       
+        for (int i = count; i > 0; i--)
         {
-            Debug.Log("scale2");
+            
             int index = i;
             Vector3 scale = new Vector3(1, 1, 1);
             scale *= 1.5f;
