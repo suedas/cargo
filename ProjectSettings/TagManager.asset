@@ -12,6 +12,7 @@ TagManager:
   - car
   - plane
   - target
+  - duvar
   layers:
   - Default
   - TransparentFX

@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public CinemachineVirtualCamera vcam;
     public GameObject money;
     public GameObject moneyTarget;
-
+    public int listCount;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -57,10 +57,11 @@ public class PlayerController : MonoBehaviour
             // ornek olarak asagidaki kodda score 10 dan buyukse kazan degilse kaybet dedik ancak
             // bazý oyunlarda farkli parametlere göre kontrol etmek veya oyun sonunda karakterin yola devam etmesi gibi
             // durumlarda developer burayý kendisi duzenlemelidir.
-            int listCount = NodeMovement.instance.cargo.Count;
+           
+            listCount = NodeMovement.instance.cargo.Count-1;
             StartCoroutine(goComplete(listCount));
+            other.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-            
         }
         else if (other.CompareTag("motor"))
         {
@@ -84,7 +85,16 @@ public class PlayerController : MonoBehaviour
             other.gameObject.GetComponent<BoxCollider>().enabled = false;
 
         }
+        else if (other.CompareTag("duvar"))
+        {
+            PlayerMovement.instance.speed = 0;
+            GameObject child = GameObject.Find("Cube");
+            int duvarChild = child.transform.childCount;
 
+            StartCoroutine(duvarX(duvarChild));
+            Debug.Log("çarptý");
+        }
+        
     }
     public IEnumerator goMotor(int adet)
     {
@@ -190,6 +200,9 @@ public class PlayerController : MonoBehaviour
        // yield return new WaitForSeconds(.05f);
         target = GameObject.Find("completeTarget");
         float y = target.transform.position.y;
+
+        StartCoroutine(instantiateMoney(listCount));
+
         for (int i = 0; i < adet; i++)
         {
             GameManager.instance.isContinue = false;
@@ -200,19 +213,43 @@ public class PlayerController : MonoBehaviour
                 .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
                 );
                 NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-                yield return new WaitForSeconds(1.2f);
+                
+                yield return new WaitForSeconds(.8f);
                 y += 1;
-             
+               
             }
         }
         yield return new WaitForSeconds(.05f);
         GameManager.instance.isContinue = false;
-        PlayerMovement.instance.speed = 0;
+        PlayerMovement.instance.speed = 1f;
 
-        StartCoroutine(instantiateMoney(target.transform.childCount));
+
         //Debug.Log(GameManager.instance.levelScore);
         //if (GameManager.instance.levelScore > 10) UiController.instance.OpenWinPanel();
         //else UiController.instance.OpenLosePanel();
+    }
+    public IEnumerator duvarX(int adet)
+    {
+        target = GameObject.Find("duvarTarget");
+        GameObject child = GameObject.Find("Cube");
+        float y = target.transform.position.y+1;
+        Debug.Log("çarptý");
+  
+        for (int i = 0; i < adet; i++)
+        {
+            GameManager.instance.isContinue = false;
+            if (child.transform.childCount > 0)
+            {
+               
+                child.transform.GetChild(child.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
+                    .OnComplete(() => child.transform.GetChild(child.transform.childCount - 1).parent = target.transform
+                );
+                yield return new WaitForSeconds(1f);
+                y += 1;
+
+            }
+        }
+       
     }
     public void taskComplete()
     {
@@ -224,12 +261,15 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator instantiateMoney(int adet)
     {
+        yield return new WaitForSeconds(.5f);
+        float y =moneyTarget.transform.position.y+2;
         for (int i = 0; i < adet; i++)
         {
-            float y = gameObject.transform.position.y;
-           Instantiate(money,new Vector3( gameObject.transform.position.x,y,gameObject.transform.position.z), Quaternion.identity);
-            y += 1;
-            yield return new WaitForSeconds(.05f);
+          
+          GameObject ss= Instantiate(money,new Vector3( moneyTarget.transform.position.x,y, moneyTarget.transform.position.z), Quaternion.identity);
+          ss.transform.parent = moneyTarget.transform;
+          y += 1;
+          yield return new WaitForSeconds(.8f);
 
         }
 
