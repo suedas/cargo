@@ -16,7 +16,7 @@ public class UiController : MonoBehaviour
 	#endregion
 
 	public GameObject winPanel, gamePanel, losePanel,tapToStartPanel;
-	public TextMeshProUGUI scoreText,levelText;
+	public TextMeshProUGUI scoreText,levelText,moneyText;
 
 	private void Start()
 	{
@@ -35,6 +35,7 @@ public class UiController : MonoBehaviour
 		tapToStartPanel.SetActive(true);
 		PlayerController.instance.PreStartingEvents();
 		LevelController.instance.NextLevelEvents();
+
 	}
 
 	public void RestartButtonClick()
@@ -84,6 +85,8 @@ public class UiController : MonoBehaviour
 	public void OpenWinPanel()
 	{
 		winPanel.SetActive(true);
+		int money=PlayerController.instance.duvarChild * 5;
+		moneyText.text = money.ToString();
 	}
 
 
@@ -92,6 +95,5 @@ public class UiController : MonoBehaviour
 		losePanel.SetActive(true);
 		PlayerMovement.instance.speed = 0;
 		
-
 	}
 }

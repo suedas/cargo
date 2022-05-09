@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     public GameObject money;
     public GameObject moneyTarget;
     public int listCount;
+    public int duvarChild;
+
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -36,8 +39,7 @@ public class PlayerController : MonoBehaviour
                 NodeMovement.instance.StackCube(other.gameObject, NodeMovement.instance.cargo.Count -1);
 
             }
-
-            
+          
             GameManager.instance.IncreaseScore();
 
         }
@@ -46,7 +48,7 @@ public class PlayerController : MonoBehaviour
             // score islemleri.. animasyon.. efect.. obstaclein destroy edilmesi.. 
             // oyun bitebilir bunun kontrolu de burada yapilabilir..
             StartCoroutine(Shake());
-            Debug.Log("obstacle");
+            Debug.Log("obstacle");          
             GameManager.instance.DecreaseScore();
         }
         else if (other.CompareTag("finish"))
@@ -59,7 +61,7 @@ public class PlayerController : MonoBehaviour
             // durumlarda developer burayý kendisi duzenlemelidir.
            
             listCount = NodeMovement.instance.cargo.Count-1;
-            StartCoroutine(goComplete(listCount));
+            StartCoroutine(Complete(listCount));
             other.gameObject.GetComponent<BoxCollider>().enabled = false;
 
         }
@@ -67,8 +69,7 @@ public class PlayerController : MonoBehaviour
         {
             //StartCoroutine( destroyet(2));
             StartCoroutine(goMotor(2));
-            other.gameObject.GetComponent<BoxCollider>().enabled = false;
-                   
+            other.gameObject.GetComponent<BoxCollider>().enabled = false;                
             Debug.Log("motor");
          
         }
@@ -89,12 +90,14 @@ public class PlayerController : MonoBehaviour
         {
             PlayerMovement.instance.speed = 0;
             GameObject child = GameObject.Find("Cube");
-            int duvarChild = child.transform.childCount;
+            duvarChild = child.transform.childCount;
 
             StartCoroutine(duvarX(duvarChild));
+
             Debug.Log("çarptý");
+          
         }
-        
+
     }
     public IEnumerator goMotor(int adet)
     {
@@ -117,16 +120,19 @@ public class PlayerController : MonoBehaviour
             {
                 //UiController.instance.OpenLosePanel();
             }
-           
-        }
-        yield return new WaitForSeconds(.5f);
-        GameManager.instance.isContinue = true;
 
-        if (target.transform.childCount == 2)
-        {
-            taskComplete();
+        
         }
-        PlayerMovement.instance.speed = 4f;
+             
+            yield return new WaitForSeconds(.5f);
+            GameManager.instance.isContinue = true;
+            if (target.transform.childCount == 2)
+            {
+                taskComplete();
+            }
+            PlayerMovement.instance.speed = 4f;
+        
+
     }
 
     public IEnumerator goCar(int adet)
@@ -148,13 +154,15 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-               // UiController.instance.OpenLosePanel();
+              //UiController.instance.OpenLosePanel();
             }
 
         }
+
+
         yield return new WaitForSeconds(.5f);
         GameManager.instance.isContinue = true;
-    
+
         if (target.transform.childCount == 3)
         {
             taskComplete();
@@ -181,10 +189,11 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                //UiController.instance.OpenLosePanel();
+               // UiController.instance.OpenLosePanel();
             }
 
         }
+
         yield return new WaitForSeconds(.5f);
         GameManager.instance.isContinue = true;
 
@@ -195,7 +204,7 @@ public class PlayerController : MonoBehaviour
 
         PlayerMovement.instance.speed = 4f;
     }
-    public IEnumerator goComplete(int adet)
+    public IEnumerator Complete(int adet)
     {
        // yield return new WaitForSeconds(.05f);
         target = GameObject.Find("completeTarget");
@@ -221,12 +230,10 @@ public class PlayerController : MonoBehaviour
         }
         yield return new WaitForSeconds(.05f);
         GameManager.instance.isContinue = false;
-        PlayerMovement.instance.speed = 1f;
+        PlayerMovement.instance.speed = 2.8f;
 
 
-        //Debug.Log(GameManager.instance.levelScore);
-        //if (GameManager.instance.levelScore > 10) UiController.instance.OpenWinPanel();
-        //else UiController.instance.OpenLosePanel();
+        
     }
     public IEnumerator duvarX(int adet)
     {
@@ -234,22 +241,23 @@ public class PlayerController : MonoBehaviour
         GameObject child = GameObject.Find("Cube");
         float y = target.transform.position.y+1;
         Debug.Log("çarptý");
-  
         for (int i = 0; i < adet; i++)
         {
             GameManager.instance.isContinue = false;
             if (child.transform.childCount > 0)
-            {
-               
-                child.transform.GetChild(child.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
+            {             
+               child.transform.GetChild(child.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
                     .OnComplete(() => child.transform.GetChild(child.transform.childCount - 1).parent = target.transform
                 );
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(.5f);
                 y += 1;
-
             }
         }
-       
+        if (child.transform.childCount == 0)
+        {
+            UiController.instance.OpenWinPanel();
+
+        }
     }
     public void taskComplete()
     {
@@ -272,7 +280,6 @@ public class PlayerController : MonoBehaviour
           yield return new WaitForSeconds(.8f);
 
         }
-
     }
 
 
@@ -286,7 +293,7 @@ public class PlayerController : MonoBehaviour
     public void PreStartingEvents()
 	{
         PlayerMovement.instance.transform.position = Vector3.zero;
-        GameManager.instance.isContinue = false;
+        GameManager.instance.isContinue =false;
 	}
 
     /// <summary>
