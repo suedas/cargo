@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
             // score islemleri.. animasyon.. efect.. collectiblen destroy edilmesi.. 
             if (!NodeMovement.instance.cargo.Contains(other.gameObject))
             {               
-                other.gameObject.tag = "Untagged";
+                other.gameObject.tag = "stack";
                 //other.gameObject.GetComponent<BoxCollider>().isTrigger = false;
                 NodeMovement.instance.StackCube(other.gameObject, NodeMovement.instance.cargo.Count -1);
 
@@ -67,10 +67,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.CompareTag("motor"))
         {
-            //StartCoroutine( destroyet(2));
-            StartCoroutine(goMotor(2));
-            other.gameObject.GetComponent<BoxCollider>().enabled = false;                
-            Debug.Log("motor");
+          
+
+
+            //StartCoroutine(goMotor(2));
+            //other.gameObject.GetComponent<BoxCollider>().enabled = false;                
+            //Debug.Log("motor");
          
         }
         else if (other.CompareTag("car"))

@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class ObstacleManager : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag=="Untagged")
+        if (other.gameObject.tag == "stack")
         {
             Destroy(other.gameObject);
             NodeMovement.instance.cargo.Remove(other.gameObject);
         }
     }
-
 }

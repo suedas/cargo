@@ -18,17 +18,18 @@ public class NodeMovement : MonoBehaviour
         else Destroy(this);
     }
     #endregion
-   
-   
-    public void StackCube(GameObject other , int index)
+
+
+    public void StackCube(GameObject other, int index)
     {
-       
+
         other.transform.parent = transform;
         Vector3 newPos = cargo[index].transform.localPosition;
         newPos.z += 1;
         other.transform.localPosition = newPos;
         cargo.Add(other);
         count = cargo.Count - 1;
+       
         StartCoroutine(Scale());
        
         
