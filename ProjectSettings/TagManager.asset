@@ -13,6 +13,8 @@ TagManager:
   - plane
   - target
   - duvar
+  - stack
+  - ss
   layers:
   - Default
   - TransparentFX
