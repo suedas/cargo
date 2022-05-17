@@ -14,16 +14,27 @@ public class SwerveMovement : MonoBehaviour
     private float deltaPos;
     private float lastMousePosX;
     private float lastPositonChange;
- 
+    public bool swerve;
+
+    #region Singleton
+    public static SwerveMovement instance;
+    void Awake()
+    {
+        if (instance == null) instance = this;
+        else Destroy(this);
+    }
+    #endregion
 
     private void Update()
     {
-        if (GameManager.instance.isContinue==true) {
+        if (swerve== true)
+        {
             UiController.instance.tapToStartPanel.SetActive(false);
             if (Input.GetMouseButtonDown(0))
             {
                 // oyunu baþlatýyoruz.. karakter ileri hareket etmeye baþlýyor..
-                if (!GameManager.instance.isContinue && UiController.instance.tapToStartPanel.activeInHierarchy) {
+                if (!GameManager.instance.isContinue && UiController.instance.tapToStartPanel.activeInHierarchy)
+                {
                     PlayerController.instance.PostStartingEvents();
                     UiController.instance.tapToStartPanel.SetActive(false);
                     GameObject first = NodeMovement.instance.cargo[0];

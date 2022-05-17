@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "stack")
-        {
-            Destroy(other.gameObject);
-            NodeMovement.instance.cargo.Remove(other.gameObject);
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.tag == "last")
+    //    {
+    //        Destroy(other.gameObject);
+    //        NodeMovement.instance.cargo.Remove(other.gameObject);
+    //    }
+    //}
 }

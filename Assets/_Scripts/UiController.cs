@@ -35,6 +35,8 @@ public class UiController : MonoBehaviour
 		tapToStartPanel.SetActive(true);
 		PlayerController.instance.PreStartingEvents();
 		LevelController.instance.NextLevelEvents();
+		GameManager.instance.isContinue = true;
+		SwerveMovement.instance.swerve = true;
 
 	}
 
@@ -44,6 +46,9 @@ public class UiController : MonoBehaviour
 		tapToStartPanel.SetActive(true);
 		PlayerController.instance.PreStartingEvents();
 		LevelController.instance.RestartLevelEvents();
+		GameManager.instance.isContinue = true;
+		SwerveMovement.instance.swerve = true;
+
 	}
 
 	public void SetScoreText()
@@ -85,6 +90,7 @@ public class UiController : MonoBehaviour
 	public void OpenWinPanel()
 	{
 		winPanel.SetActive(true);
+	
 		int money=PlayerController.instance.duvarChild * 5;
 		moneyText.text = money.ToString();
 	}
@@ -94,6 +100,8 @@ public class UiController : MonoBehaviour
 	{
 		losePanel.SetActive(true);
 		PlayerMovement.instance.speed = 0;
+		GameManager.instance.isContinue = false;
+		SwerveMovement.instance.swerve = false;
 		
 	}
 }

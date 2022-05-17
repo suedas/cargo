@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6566587294000842788}
   - component: {fileID: 4506265865793558983}
   - component: {fileID: 7068295653794489489}
-  - component: {fileID: -5599499126244192536}
+  - component: {fileID: 5310438652957243432}
   m_Layer: 0
   m_Name: Motor
   m_TagString: motor
@@ -99,7 +99,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1.2012929}
   m_Center: {x: 0, y: 0, z: -0.10064617}
---- !u!114 &-5599499126244192536
+--- !u!114 &5310438652957243432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,10 +108,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2769107238381604664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 013451b3fa7be6b419c301a3948f146e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ba21a9e69ab76948900443456a7fd34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!1 &7559661199292936648
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     public GameObject moneyTarget;
     public int listCount;
     public int duvarChild;
-
+    public GameObject cube;
 
 
     private void OnTriggerEnter(Collider other)
@@ -35,7 +35,6 @@ public class PlayerController : MonoBehaviour
             if (!NodeMovement.instance.cargo.Contains(other.gameObject))
             {               
                 other.gameObject.tag = "stack";
-                //other.gameObject.GetComponent<BoxCollider>().isTrigger = false;
                 NodeMovement.instance.StackCube(other.gameObject, NodeMovement.instance.cargo.Count -1);
 
             }
@@ -47,9 +46,21 @@ public class PlayerController : MonoBehaviour
         {
             // score islemleri.. animasyon.. efect.. obstaclein destroy edilmesi.. 
             // oyun bitebilir bunun kontrolu de burada yapilabilir..
-            StartCoroutine(Shake());
-            Debug.Log("obstacle");          
-            GameManager.instance.DecreaseScore();
+
+            if (gameObject.transform.childCount>1)
+            {
+                StartCoroutine(Shake());
+                Destroy(GameObject.FindGameObjectWithTag("last"));
+                NodeMovement.instance.cargo.Remove(GameObject.FindGameObjectWithTag("last"));
+                GameManager.instance.DecreaseScore();
+
+            }
+            else
+            {
+
+                UiController.instance.OpenLosePanel();
+            }
+           
         }
         else if (other.CompareTag("finish"))
         {
@@ -65,29 +76,7 @@ public class PlayerController : MonoBehaviour
             other.gameObject.GetComponent<BoxCollider>().enabled = false;
 
         }
-        else if (other.CompareTag("motor"))
-        {
-          
-
-
-            //StartCoroutine(goMotor(2));
-            //other.gameObject.GetComponent<BoxCollider>().enabled = false;                
-            //Debug.Log("motor");
-         
-        }
-        else if (other.CompareTag("car"))
-        {
-           
-            StartCoroutine(goCar(3));
-            other.gameObject.GetComponent<BoxCollider>().enabled = false;
-
-        }
-        else if (other.CompareTag("plane"))
-        {
-            StartCoroutine(goPlane(4));
-            other.gameObject.GetComponent<BoxCollider>().enabled = false;
-
-        }
+        
         else if (other.CompareTag("duvar"))
         {
             PlayerMovement.instance.speed = 0;
@@ -101,111 +90,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    public IEnumerator goMotor(int adet)
-    {
-        target = GameObject.Find("motorTarget");   
-        float y = target.transform.position.y;
-        for (int i = 0; i < adet; i++)
-        {
-            GameManager.instance.isContinue = false;
-            if (gameObject.transform.childCount>0)
-            {
-                PlayerMovement.instance.speed =2.3f;
-                gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
-                .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
-                );
-                NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-                yield return new WaitForSeconds(.5f);
-                y +=1;
-            }
-            else
-            {
-                //UiController.instance.OpenLosePanel();
-            }
-
-        
-        }
-             
-            yield return new WaitForSeconds(.5f);
-            GameManager.instance.isContinue = true;
-            if (target.transform.childCount == 2)
-            {
-                taskComplete();
-            }
-            PlayerMovement.instance.speed = 4f;
-        
-
-    }
-
-    public IEnumerator goCar(int adet)
-    {
-        target = GameObject.Find("carTarget");
-        float y = target.transform.position.y;
-        for (int i = 0; i < adet; i++)
-        {
-            GameManager.instance.isContinue = false;
-            if (gameObject.transform.childCount > 0)
-            {
-                PlayerMovement.instance.speed = 2.3f;
-                gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
-                .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
-                );
-                NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-                yield return new WaitForSeconds(.5f);
-                y += 1;
-            }
-            else
-            {
-              //UiController.instance.OpenLosePanel();
-            }
-
-        }
-
-
-        yield return new WaitForSeconds(.5f);
-        GameManager.instance.isContinue = true;
-
-        if (target.transform.childCount == 3)
-        {
-            taskComplete();
-        }
-
-        PlayerMovement.instance.speed = 4f;
-    }
-    public IEnumerator goPlane(int adet)
-    {
-        target = GameObject.Find("planeTarget");
-        float y = target.transform.position.y;
-        for (int i = 0; i < adet; i++)
-        {
-            GameManager.instance.isContinue = false;
-            if (gameObject.transform.childCount > 0)
-            {
-                PlayerMovement.instance.speed = 2.3f;
-                gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
-                .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
-                );
-                NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-                yield return new WaitForSeconds(.5f);
-                y += 1;
-            }
-            else
-            {
-               // UiController.instance.OpenLosePanel();
-            }
-
-        }
-
-        yield return new WaitForSeconds(.5f);
-        GameManager.instance.isContinue = true;
-
-        if (target.transform.childCount == 4)
-        {
-            taskComplete();
-        }
-
-        PlayerMovement.instance.speed = 4f;
-    }
+    
     public IEnumerator Complete(int adet)
     {
        // yield return new WaitForSeconds(.05f);
@@ -216,7 +101,8 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < adet; i++)
         {
-            GameManager.instance.isContinue = false;
+            //GameManager.instance.isContinue = false;
+            SwerveMovement.instance.swerve = false;
             if (gameObject.transform.childCount > 0)
             {
                 PlayerMovement.instance.speed = 1f;
@@ -231,7 +117,9 @@ public class PlayerController : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(.05f);
-        GameManager.instance.isContinue = false;
+        // GameManager.instance.isContinue = false;
+        SwerveMovement.instance.swerve = false;
+
         PlayerMovement.instance.speed = 2.8f;
 
 
@@ -246,6 +134,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < adet; i++)
         {
             GameManager.instance.isContinue = false;
+            SwerveMovement.instance.swerve = false;
             if (child.transform.childCount > 0)
             {             
                child.transform.GetChild(child.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
@@ -261,14 +150,7 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-    public void taskComplete()
-    {
-        if (NodeMovement.instance.cargo.Count > 0)
-        {
-            target.transform.DOMove(new Vector3(0.1f, 0, 111f), 2f).OnComplete(() => Destroy(target));
-
-        }
-    }
+  
     public IEnumerator instantiateMoney(int adet)
     {
         yield return new WaitForSeconds(.5f);
@@ -296,6 +178,8 @@ public class PlayerController : MonoBehaviour
 	{
         PlayerMovement.instance.transform.position = Vector3.zero;
         GameManager.instance.isContinue =false;
+        SwerveMovement.instance.swerve = false;
+       
 	}
 
     /// <summary>
@@ -306,7 +190,9 @@ public class PlayerController : MonoBehaviour
 	{
         GameManager.instance.levelScore = 0;
         GameManager.instance.isContinue = true;
-	}
+        SwerveMovement.instance.swerve =true;
+
+    }
     public IEnumerator Shake()
     {
         

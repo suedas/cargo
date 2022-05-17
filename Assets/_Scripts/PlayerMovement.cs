@@ -18,25 +18,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(0, 0, speed * Time.deltaTime);
-        if (player.transform.childCount>0)
+        if (GameManager.instance.isContinue==true)
         {
-            GameObject ss= player.transform.GetChild(player.transform.childCount - 1).gameObject;
-            ss.tag = "ss";
-            if (player.transform.GetChild(player.transform.childCount-1).gameObject.tag=="ss")
+            transform.Translate(0, 0, speed * Time.deltaTime);
+            if (player.transform.childCount > 0)
             {
-                for (int i = 0; i < player.transform.childCount-1; i++)
+                GameObject ss = player.transform.GetChild(player.transform.childCount - 1).gameObject;
+                ss.tag = "last";
+                if (player.transform.GetChild(player.transform.childCount - 1).gameObject.tag == "last")
                 {
-                    player.transform.GetChild(i).gameObject.tag = "stack";
+                    for (int i = 0; i < player.transform.childCount - 1; i++)
+                    {
+                        player.transform.GetChild(i).gameObject.tag = "stack";
+                    }
+
                 }
-               
-            }
-            else
-            {
-                GameObject son = player.transform.GetChild(player.transform.childCount - 1).gameObject;
-                son.tag = "ss";
+                else
+                {
+                    GameObject son = player.transform.GetChild(player.transform.childCount - 1).gameObject;
+                    son.tag = "last";
+                }
             }
         }
+       
+        
     }
 
 }

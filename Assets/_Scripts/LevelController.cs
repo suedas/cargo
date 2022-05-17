@@ -69,5 +69,8 @@ public class LevelController : MonoBehaviour
 	{
 		Destroy(currentLevelObj);
 		currentLevelObj = Instantiate(LevelPrefabs[currentLevelNo - 1], Vector3.zero, Quaternion.identity);
+		
+
+
 	}
 }

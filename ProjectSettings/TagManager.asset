@@ -15,6 +15,7 @@ TagManager:
   - duvar
   - stack
   - ss
+  - last
   layers:
   - Default
   - TransparentFX
