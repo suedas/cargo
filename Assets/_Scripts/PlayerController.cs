@@ -46,21 +46,8 @@ public class PlayerController : MonoBehaviour
         {
             // score islemleri.. animasyon.. efect.. obstaclein destroy edilmesi.. 
             // oyun bitebilir bunun kontrolu de burada yapilabilir..
-
-            if (gameObject.transform.childCount>1)
-            {
-                StartCoroutine(Shake());
-                Destroy(GameObject.FindGameObjectWithTag("last"));
-                NodeMovement.instance.cargo.Remove(GameObject.FindGameObjectWithTag("last"));
-                GameManager.instance.DecreaseScore();
-
-            }
-            else
-            {
-
-                UiController.instance.OpenLosePanel();
-            }
-           
+            StartCoroutine(Shake());
+            GameManager.instance.DecreaseScore();
         }
         else if (other.CompareTag("finish"))
         {
@@ -90,7 +77,11 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    
+    /// <summary>
+    /// fnish çizgizine geldiðinde elindeki paketleri makineye gönderir.
+    /// </summary>
+    /// <param name="adet">elindeki paket sayýsý</param>
+    /// <returns></returns>
     public IEnumerator Complete(int adet)
     {
        // yield return new WaitForSeconds(.05f);
@@ -125,11 +116,16 @@ public class PlayerController : MonoBehaviour
 
         
     }
+    /// <summary>
+    /// paralarý pun duvarýna gönderir.
+    /// </summary>
+    /// <param name="adet">para sayýsý</param>
+    /// <returns></returns>
     public IEnumerator duvarX(int adet)
     {
         target = GameObject.Find("duvarTarget");
         GameObject child = GameObject.Find("Cube");
-        float y = target.transform.position.y+1;
+        float y = target.transform.position.y+.5f;
         Debug.Log("çarptý");
         for (int i = 0; i < adet; i++)
         {
@@ -137,11 +133,11 @@ public class PlayerController : MonoBehaviour
             SwerveMovement.instance.swerve = false;
             if (child.transform.childCount > 0)
             {             
-               child.transform.GetChild(child.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
+               child.transform.GetChild(child.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z-1), 1, 1, .2f)
                     .OnComplete(() => child.transform.GetChild(child.transform.childCount - 1).parent = target.transform
                 );
-                yield return new WaitForSeconds(.5f);
-                y += 1;
+                yield return new WaitForSeconds(.2f);
+                y +=.3f;
             }
         }
         if (child.transform.childCount == 0)
@@ -150,17 +146,21 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-  
+  /// <summary>
+  /// paketleri gönderdikçe o6yuncunun eline para gönderir.
+  /// </summary>
+  /// <param name="adet">paket sayýsý</param>
+  /// <returns></returns>
     public IEnumerator instantiateMoney(int adet)
     {
         yield return new WaitForSeconds(.5f);
-        float y =moneyTarget.transform.position.y+2;
+        float y =moneyTarget.transform.position.y+1;
         for (int i = 0; i < adet; i++)
         {
           
-          GameObject ss= Instantiate(money,new Vector3( moneyTarget.transform.position.x,y, moneyTarget.transform.position.z), Quaternion.identity);
+          GameObject ss= Instantiate(money,new Vector3( moneyTarget.transform.position.x,y, moneyTarget.transform.position.z), Quaternion.Euler(-90,90,0));
           ss.transform.parent = moneyTarget.transform;
-          y += 1;
+          y += .3f;
           yield return new WaitForSeconds(.8f);
 
         }

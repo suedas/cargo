@@ -7,21 +7,24 @@ public class MotorTask : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
+     
         if (other.gameObject.CompareTag("last"))
         {
-            //target = GameObject.Find("motorTarget");
+            GameObject target = GameObject.Find("motorTarget");
           
             PlayerMovement.instance.speed = 1f;
-            if (gameObject.transform.childCount <= 2)
+            if (gameObject.transform.childCount <= 5)
             {
                 int count = gameObject.transform.childCount;
-                other.gameObject.transform.DOJump(new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 0.2f + count, gameObject.transform.position.z), 1, 1, .2f)
+                other.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y-3f+ count, target.transform.position.z), 1, 1, .2f)
                .OnComplete(() => other.gameObject.transform.parent = gameObject.transform);
                 NodeMovement.instance.cargo.Remove(other.gameObject);
 
+                //.Append(other.gameObject.transform.DOScale(2,1f)).Append(other.gameObject.transform.DOScale(1,1f)) 
+
                 // gönderirken ayný zamanda swerve yaparsan cargo baþka baþka yerlere gididyor.??????????????????????
 
-                if (gameObject.transform.childCount == 2)
+                if (gameObject.transform.childCount == 5)
                 {
                    StartCoroutine(taskComplete());
 

@@ -2752,6 +2752,7 @@ MonoBehaviour:
   moneyTarget: {fileID: 1940732081}
   listCount: 0
   duvarChild: 0
+  cube: {fileID: 0}
 --- !u!114 &1597856537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2769,6 +2770,7 @@ MonoBehaviour:
   maxHorizontalDistance: 2
   checkDistanceChange: 1
   maxHorizontalChange: 0.6
+  swerve: 0
 --- !u!114 &1597856539
 MonoBehaviour:
   m_ObjectHideFlags: 0
