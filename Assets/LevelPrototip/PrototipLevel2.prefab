@@ -1468,6 +1468,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Motor
       objectReference: {fileID: 0}
+    - target: {fileID: 5455022401838506685, guid: e0ef31cbe315ba842abce9ef2b97e7c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0ef31cbe315ba842abce9ef2b97e7c5, type: 3}
 --- !u!4 &4883454202616198740 stripped
@@ -1780,8 +1784,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2769107238381604664, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5310438652957243432, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 247972890319904407}
     - target: {fileID: 7068295653794489489, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -1792,6 +1800,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+--- !u!1 &247972890319904407 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7559661199292936648, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+  m_PrefabInstance: {fileID: 7753428110524641119}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6927082200434136858 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 844501097645586501, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}

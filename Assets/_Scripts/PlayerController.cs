@@ -31,14 +31,33 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("collectible"))
         {
+            GameObject player = GameObject.Find("Player");
             // score islemleri.. animasyon.. efect.. collectiblen destroy edilmesi.. 
             if (!NodeMovement.instance.cargo.Contains(other.gameObject))
             {               
                 other.gameObject.tag = "stack";
                 NodeMovement.instance.StackCube(other.gameObject, NodeMovement.instance.cargo.Count -1);
+                if (player.transform.childCount > 0)
+                {
+                    GameObject ss = player.transform.GetChild(player.transform.childCount - 1).gameObject;
+                    ss.tag = "last";
+                    if (player.transform.GetChild(player.transform.childCount - 1).gameObject.tag == "last")
+                    {
+                        for (int i = 0; i < player.transform.childCount - 1; i++)
+                        {
+                            player.transform.GetChild(i).gameObject.tag = "stack";
+                        }
+
+                    }
+                    else
+                    {
+                        GameObject son = player.transform.GetChild(player.transform.childCount - 1).gameObject;
+                        son.tag = "last";
+                    }
+                }
 
             }
-          
+
             GameManager.instance.IncreaseScore();
 
         }

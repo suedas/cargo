@@ -2627,7 +2627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isContinue: 0
-  scoreArtisMiktari: 10
+  scoreArtisMiktari: 5
   score: 0
   levelScore: 0
 --- !u!1 &1597856530
