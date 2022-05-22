@@ -54,7 +54,7 @@ public class NodeMovement : MonoBehaviour
     }
     public void Lerp()
     {
-        for (int i = 1; i <cargo.Count; i++)
+        for (int i = 1; i <=count; i++)
         {           
             Vector3 pos = cargo[i].transform.localPosition;
             pos.x = cargo[i - 1].transform.localPosition.x;
@@ -64,12 +64,17 @@ public class NodeMovement : MonoBehaviour
     }
     public void Origin()
     {
-        for (int i = 1; i < cargo.Count; i++)
+        for (int i = 1; i <= count; i++)
         {
             Vector3 pos = cargo[i].transform.localPosition;
             pos.x = cargo[0].transform.localPosition.x;
             cargo[i].transform.DOLocalMove(pos, 0.70f);
 
         }
+    }
+
+    public void KillDoTween(GameObject obj)
+    {
+        obj.transform.DOKill();
     }
 }
