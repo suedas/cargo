@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		isContinue = true;
+		//isContinue = true;
 		SwerveMovement.instance.swerve=true;
 		score = PlayerPrefs.GetInt("score");
 	}

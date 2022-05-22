@@ -35,8 +35,9 @@ public class UiController : MonoBehaviour
 		tapToStartPanel.SetActive(true);
 		PlayerController.instance.PreStartingEvents();
 		LevelController.instance.NextLevelEvents();
-		GameManager.instance.isContinue = true;
-		SwerveMovement.instance.swerve = true;
+		//GameManager.instance.isContinue = true;
+		//SwerveMovement.instance.swerve = true;
+		//PlayerMovement.instance.speed = 4f;
 
 	}
 
@@ -44,10 +45,12 @@ public class UiController : MonoBehaviour
 	{
 		losePanel.SetActive(false);
 		tapToStartPanel.SetActive(true);
+		//GameManager.instance.isContinue = false;
 		PlayerController.instance.PreStartingEvents();
 		LevelController.instance.RestartLevelEvents();
-		GameManager.instance.isContinue = true;
-		SwerveMovement.instance.swerve = true;
+		
+		//SwerveMovement.instance.swerve = true;
+		//PlayerMovement.instance.speed = 4f;
 
 	}
 
@@ -91,7 +94,7 @@ public class UiController : MonoBehaviour
 	{
 		winPanel.SetActive(true);
 	
-		int money=PlayerController.instance.duvarChild * 5;
+		int money=PlayerController.instance.duvarTarget.transform.childCount;
 		moneyText.text = money.ToString();
 	}
 

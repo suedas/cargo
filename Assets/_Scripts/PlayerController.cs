@@ -18,15 +18,13 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     public GameObject target;
-    public GameObject f;
     public CinemachineVirtualCamera vcam;
     public GameObject money;
-    public GameObject moneyTarget;
-    public int listCount;
-    public int duvarChild;
-    public GameObject cube;
-
-
+   // public GameObject moneyTarget;
+    public GameObject duvarTarget;
+   // public int listCount;
+   // public int duvarChild;
+ 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("collectible"))
@@ -65,7 +63,6 @@ public class PlayerController : MonoBehaviour
         {
             // score islemleri.. animasyon.. efect.. obstaclein destroy edilmesi.. 
             // oyun bitebilir bunun kontrolu de burada yapilabilir..
-            StartCoroutine(Shake());
             GameManager.instance.DecreaseScore();
         }
         else if (other.CompareTag("finish"))
@@ -76,24 +73,29 @@ public class PlayerController : MonoBehaviour
             // ornek olarak asagidaki kodda score 10 dan buyukse kazan degilse kaybet dedik ancak
             // bazý oyunlarda farkli parametlere göre kontrol etmek veya oyun sonunda karakterin yola devam etmesi gibi
             // durumlarda developer burayý kendisi duzenlemelidir.
-           
-            listCount = NodeMovement.instance.cargo.Count-1;
-            StartCoroutine(Complete(listCount));
-            other.gameObject.GetComponent<BoxCollider>().enabled = false;
+            SwerveMovement.instance.swerve = false;
+            // target = GameObject.Find("completeTarget");
+            //  listCount = NodeMovement.instance.cargo.Count-1;
+            // Debug.Log(listCount);
+            StartCoroutine(complete(other.gameObject));
+           // StartCoroutine(instantiateMoney(listCount));
+
+           // StartCoroutine(Complete(listCount));
+           // other.gameObject.GetComponent<BoxCollider>().enabled = false;
 
         }
         
-        else if (other.CompareTag("duvar"))
-        {
-            PlayerMovement.instance.speed = 0;
-            GameObject child = GameObject.Find("Cube");
-            duvarChild = child.transform.childCount;
+        //else if (other.CompareTag("duvar"))
+        //{
+        //    PlayerMovement.instance.speed = 0;
+        //    GameObject child = GameObject.Find("Cube");
+        //    duvarChild = child.transform.childCount;
 
-            StartCoroutine(duvarX(duvarChild));
+        //   // StartCoroutine(duvarX(duvarChild));
 
-            Debug.Log("çarptý");
+        //    Debug.Log("çarptý");
           
-        }
+        //}
 
     }
     /// <summary>
@@ -101,70 +103,102 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="adet">elindeki paket sayýsý</param>
     /// <returns></returns>
-    public IEnumerator Complete(int adet)
+    
+  
+    public IEnumerator complete(GameObject other)
     {
-       // yield return new WaitForSeconds(.05f);
+        //yield return new WaitForSeconds(.05f);
+        PlayerMovement.instance.speed = 2f;
+        
+
         target = GameObject.Find("completeTarget");
-        float y = target.transform.position.y;
 
-        StartCoroutine(instantiateMoney(listCount));
-
-        for (int i = 0; i < adet; i++)
+        if (gameObject.transform.childCount > 1)
         {
-            //GameManager.instance.isContinue = false;
-            SwerveMovement.instance.swerve = false;
-            if (gameObject.transform.childCount > 0)
-            {
-                PlayerMovement.instance.speed = 1f;
-                gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .2f)
-                .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
-                );
-                NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-                
-                yield return new WaitForSeconds(.8f);
-                y += 1;
-               
-            }
+            gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOMove(target.transform.position, .3f).OnComplete(()=> gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
+            NodeMovement.instance.count--;
+            NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
+            yield return new WaitForSeconds(.8f);
         }
-        yield return new WaitForSeconds(.05f);
-        // GameManager.instance.isContinue = false;
-        SwerveMovement.instance.swerve = false;
+        else
+        {
+            duvarTarget = GameObject.Find("duvarTarget");
+            PlayerMovement.instance.speed = 0;
+            vcam.LookAt = duvarTarget.transform;
+            //vcam.transform.position = new Vector3(vcam.transform.position.x, vcam.transform.position.y, vcam.transform.position.z + 5f);
+            StartCoroutine(instantiateMoney(target.transform.childCount*2));
+        }
 
-        PlayerMovement.instance.speed = 2.8f;
+           
+            //gameObject.transform.DOMove(target.transform.position, .8f);
+
+    }
+    //public IEnumerator Complete(int adet)
+    //{
+    //   // yield return new WaitForSeconds(.05f);
+    //    target = GameObject.Find("completeTarget");
+    //    float y = target.transform.position.y;
+
+    //    StartCoroutine(instantiateMoney(listCount));
+
+    //    for (int i = 0; i < adet; i++)
+    //    {
+    //        //GameManager.instance.isContinue = false;
+    //        SwerveMovement.instance.swerve = false;
+    //        if (gameObject.transform.childCount > 0)
+    //        {
+    //            PlayerMovement.instance.speed = 2.8f;
+    //            gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .01f)
+    //            .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
+    //            );
+    //            NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
+                
+    //            yield return new WaitForSeconds(.8f);
+    //            y += 1;
+               
+    //        }
+    //    }
+    //    yield return new WaitForSeconds(.05f);
+    //    // GameManager.instance.isContinue = false;
+    //    SwerveMovement.instance.swerve = false;
+
+    //    PlayerMovement.instance.speed = 4f;
 
 
         
-    }
+    //}
     /// <summary>
     /// paralarý pun duvarýna gönderir.
     /// </summary>
     /// <param name="adet">para sayýsý</param>
     /// <returns></returns>
-    public IEnumerator duvarX(int adet)
-    {
-        target = GameObject.Find("duvarTarget");
-        GameObject child = GameObject.Find("Cube");
-        float y = target.transform.position.y+.5f;
-        Debug.Log("çarptý");
-        for (int i = 0; i < adet; i++)
-        {
-            GameManager.instance.isContinue = false;
-            SwerveMovement.instance.swerve = false;
-            if (child.transform.childCount > 0)
-            {             
-               child.transform.GetChild(child.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z-1), 1, 1, .2f)
-                    .OnComplete(() => child.transform.GetChild(child.transform.childCount - 1).parent = target.transform
-                );
-                yield return new WaitForSeconds(.2f);
-                y +=.3f;
-            }
-        }
-        if (child.transform.childCount == 0)
-        {
-            UiController.instance.OpenWinPanel();
+    
+    //public IEnumerator duvarX(int adet)
+    //{
+    //    target = GameObject.Find("duvarTarget");
+    //    GameObject child = GameObject.Find("Cube");
+    //    float y = target.transform.position.y+.5f;
+    //    Debug.Log("çarptý");
+    //    for (int i = 0; i < adet; i++)
+    //    {
+    //        GameManager.instance.isContinue = false;
+    //        SwerveMovement.instance.swerve = false;
+    //        if (child.transform.childCount > 0)
+    //        {             
+    //           child.transform.GetChild(child.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z-1), 1, 1, .2f)
+    //                .OnComplete(() => child.transform.GetChild(child.transform.childCount - 1).parent = target.transform
+    //            );
+    //            yield return new WaitForSeconds(.2f);
+    //            y +=.3f;
+    //        }
+    //    }
+    //    if (child.transform.childCount == 0)
+    //    {
+    //        UiController.instance.OpenWinPanel();
 
-        }
-    }
+    //    }
+    //}
+
   /// <summary>
   /// paketleri gönderdikçe o6yuncunun eline para gönderir.
   /// </summary>
@@ -172,16 +206,25 @@ public class PlayerController : MonoBehaviour
   /// <returns></returns>
     public IEnumerator instantiateMoney(int adet)
     {
+        GameObject duvar = GameObject.Find("duvar");
+        GameObject complete = GameObject.Find("completeTarget");
+        duvarTarget = GameObject.Find("duvarTarget");
         yield return new WaitForSeconds(.5f);
-        float y =moneyTarget.transform.position.y+1;
+        float y =duvarTarget.transform.position.y;
         for (int i = 0; i < adet; i++)
-        {
-          
-          GameObject ss= Instantiate(money,new Vector3( moneyTarget.transform.position.x,y, moneyTarget.transform.position.z), Quaternion.Euler(-90,90,0));
-          ss.transform.parent = moneyTarget.transform;
+        {         
+          GameObject ss= Instantiate(money,new Vector3(duvarTarget.transform.position.x,y, duvarTarget.transform.position.z), Quaternion.Euler(-90,90,0));
+          ss.transform.parent = duvarTarget.transform;
           y += .3f;
-          yield return new WaitForSeconds(.8f);
+          yield return new WaitForSeconds(.05f);
+          //vcam.Follow = duvar.transform.GetChild(duvar.transform.childCount - 1);
 
+
+        }
+        if (complete.transform.childCount*2==duvarTarget.transform.childCount)
+        {
+            yield return new WaitForSeconds(.2f);
+            UiController.instance.OpenWinPanel();
         }
     }
 
@@ -196,10 +239,9 @@ public class PlayerController : MonoBehaviour
     public void PreStartingEvents()
 	{
         PlayerMovement.instance.transform.position = Vector3.zero;
-        GameManager.instance.isContinue =false;
-        SwerveMovement.instance.swerve = false;
-       
-	}
+        //GameManager.instance.isContinue = true;
+        SwerveMovement.instance.swerve = true;
+    }
 
     /// <summary>
     /// taptostart butonuna týklanýnca (ya da oyun basi ilk dokunus) karakter kosmaya baslar, belki hizi ayarlanýr, animasyon scale rotate
@@ -210,6 +252,8 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.levelScore = 0;
         GameManager.instance.isContinue = true;
         SwerveMovement.instance.swerve =true;
+        PlayerMovement.instance.speed = 4f;
+
 
     }
     public IEnumerator Shake()

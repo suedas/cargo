@@ -29,7 +29,7 @@ public class SwerveMovement : MonoBehaviour
     {
         if (swerve== true)
         {
-            UiController.instance.tapToStartPanel.SetActive(false);
+            //UiController.instance.tapToStartPanel.SetActive(false);
             if (Input.GetMouseButtonDown(0))
             {
                 // oyunu baþlatýyoruz.. karakter ileri hareket etmeye baþlýyor..
@@ -38,7 +38,7 @@ public class SwerveMovement : MonoBehaviour
                     PlayerController.instance.PostStartingEvents();
                     UiController.instance.tapToStartPanel.SetActive(false);
                     GameObject first = NodeMovement.instance.cargo[0];
-
+                    
                     //NodeMovement.instance.Lerp();
                 }
 

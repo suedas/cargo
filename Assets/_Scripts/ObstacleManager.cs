@@ -13,20 +13,17 @@ public class ObstacleManager : MonoBehaviour
         ss.tag = "last";
         if (other.gameObject.tag == "last")
         {
-         
-
+            PlayerController.instance.Shake();
             if (player.transform.childCount > 1)
             {
                 Instantiate(crack, transform.position, transform.rotation);
-                Destroy(other.gameObject);
+                NodeMovement.instance.count--;
                 NodeMovement.instance.cargo.Remove(other.gameObject);
-               
-
-
+                Destroy(other.gameObject);
+              
             }
             else
             {
-
                 UiController.instance.OpenLosePanel();
             }
         }
