@@ -8,8 +8,10 @@ public class MotorTask : MonoBehaviour
 
     public GameObject target;
     public GameObject sag;
-    public GameObject finish;
+    public GameObject sagFinish;
     public GameObject player;
+    public GameObject sol;
+    public GameObject solFinish;
  
     private void OnTriggerEnter(Collider other)
     {
@@ -73,7 +75,7 @@ public class MotorTask : MonoBehaviour
         //obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y - 3f + count, target.transform.position.z), 1, 1, .2f);
         //obj.transform.parent = transform;
 
-        obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .3f)
+        obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .2f)
               .OnComplete(() => obj.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y  + count, target.transform.position.z));
 
         obj.transform.parent = transform;
@@ -81,15 +83,30 @@ public class MotorTask : MonoBehaviour
 
 
     }
+
  
     public IEnumerator taskComplete()
     {
-        
-        yield return new WaitForSeconds(.5f);
-        //gameObject.transform.DOMove(sag.transform.position,3f).OnComplete(() =>transform.Rotate(0,-90,0));
-        //gameObject.transform.DOMove(finish.transform.position, 3f);
+        if (gameObject.transform.position.x>0)
+        {
+            yield return new WaitForSeconds(.5f);
 
-        //gameObject.transform.DOMove(new Vector3(0.1f, 0, 111f), 2f).OnComplete(() => Destroy(gameObject));
+            gameObject.transform.DOMove(sag.transform.position, .8f).OnComplete(() => transform.Rotate(0, -90, 0));
+            yield return new WaitForSeconds(.5f);
+            gameObject.transform.DOMove(sagFinish.transform.position, 3f).OnComplete(() => Destroy(gameObject));
+
+        }
+        else
+        {
+            yield return new WaitForSeconds(.5f);
+            gameObject.transform.DOMove(sol.transform.position, .8f).OnComplete(() => transform.Rotate(0, -90, 0));
+            yield return new WaitForSeconds(.5f);
+            gameObject.transform.DOMove(solFinish.transform.position, 3f).OnComplete(() => Destroy(gameObject));
+
+        }
+
+
+        // gameObject.transform.DOMove(new Vector3(0.1f, 0, 111f), 2f).OnComplete(() => Destroy(gameObject));
 
     }
 }

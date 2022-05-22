@@ -11,14 +11,14 @@ public class PlaneTask : MonoBehaviour
         if (other.gameObject.CompareTag("last"))
         {
          
-            PlayerMovement.instance.speed = 1f;
-            if (gameObject.transform.childCount <= 7)
+           // PlayerMovement.instance.speed = 1f;
+            if (gameObject.transform.childCount <= 2)
             {
                 int count = gameObject.transform.childCount;
                 NodeMovement.instance.count--;
                 other.tag = "Untagged";
                 StartCoroutine(DelayAndJump(other.gameObject, count));
-                if (gameObject.transform.childCount == 7)
+                if (gameObject.transform.childCount ==2)
                 {
                     StartCoroutine(taskComplete());
                 }
@@ -51,7 +51,7 @@ public class PlaneTask : MonoBehaviour
         //obj.transform.parent = transform;
         GameObject ss = player.transform.GetChild(player.transform.childCount - 1).gameObject;
         ss.tag = "last";
-        obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .3f)
+        obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .05f)
               .OnComplete(() => obj.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z));
         obj.transform.parent = transform;
         
@@ -60,7 +60,9 @@ public class PlaneTask : MonoBehaviour
     public IEnumerator taskComplete()
     {
         yield return new WaitForSeconds(.5f);
-        gameObject.transform.DOMove(new Vector3(0.1f, 0, 111f), 2f).OnComplete(() => Destroy(gameObject));
+        gameObject.transform.DOJump(new Vector3(transform.position.x, 20, transform.position.z),1,1,.8f).OnComplete(()=>Destroy(gameObject));
+       
+        //gameObject.transform.DOMove(new Vector3(0.1f, 0, 111f), 2f).OnComplete(() => Destroy(gameObject));
 
     }
 }

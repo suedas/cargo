@@ -6,7 +6,10 @@ using DG.Tweening;
 public class CarTask : MonoBehaviour
 {
     public GameObject target;
-
+    public GameObject sag;
+    public GameObject sagFinish;
+    public GameObject sol;
+    public GameObject solFinish;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("last"))
@@ -58,8 +61,27 @@ public class CarTask : MonoBehaviour
     }
     public IEnumerator taskComplete()
     {
-        yield return new WaitForSeconds(.5f);
-        gameObject.transform.DOMove(new Vector3(0.1f, 0, 111f), 2f).OnComplete(() => Destroy(gameObject));
+
+
+        if (gameObject.transform.position.x > 0)
+        {
+            yield return new WaitForSeconds(.5f);
+
+            gameObject.transform.DOMove(sag.transform.position, .8f).OnComplete(() => transform.Rotate(0, -90, 0));
+            yield return new WaitForSeconds(.5f);
+            gameObject.transform.DOMove(sagFinish.transform.position, 3f).OnComplete(() => Destroy(gameObject));
+
+        }
+        else
+        {
+            yield return new WaitForSeconds(.5f);
+            gameObject.transform.DOMove(sol.transform.position, .8f).OnComplete(() => transform.Rotate(0, -90, 0));
+            yield return new WaitForSeconds(.5f);
+            gameObject.transform.DOMove(solFinish.transform.position, 3f).OnComplete(() => Destroy(gameObject));
+
+        }
+        //yield return new WaitForSeconds(.5f);
+        //gameObject.transform.DOMove(new Vector3(0.1f, 0, 111f), 2f).OnComplete(() => Destroy(gameObject));
 
     }
 }
