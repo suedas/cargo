@@ -22,11 +22,14 @@ public class PlayerController : MonoBehaviour
     public GameObject money;
    // public GameObject moneyTarget;
     public GameObject duvarTarget;
+    public GameObject cameraLookAt;
+    public GameObject firstCube;
    // public int listCount;
    // public int duvarChild;
  
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.CompareTag("collectible"))
         {
             GameObject player = GameObject.Find("Player");
@@ -77,25 +80,16 @@ public class PlayerController : MonoBehaviour
             // target = GameObject.Find("completeTarget");
             //  listCount = NodeMovement.instance.cargo.Count-1;
             // Debug.Log(listCount);
-            StartCoroutine(complete(other.gameObject));
-           // StartCoroutine(instantiateMoney(listCount));
 
-           // StartCoroutine(Complete(listCount));
-           // other.gameObject.GetComponent<BoxCollider>().enabled = false;
+           
+            StartCoroutine(complete(other.gameObject));
+            //vcam.enabled = false;
+            //vcam.transform.SetPositionAndRotation(new Vector3(0, 0, 0), Quaternion.identity);
+            //vcam.enabled = true;
+
 
         }
-        
-        //else if (other.CompareTag("duvar"))
-        //{
-        //    PlayerMovement.instance.speed = 0;
-        //    GameObject child = GameObject.Find("Cube");
-        //    duvarChild = child.transform.childCount;
-
-        //   // StartCoroutine(duvarX(duvarChild));
-
-        //    Debug.Log("çarptý");
-          
-        //}
+       
 
     }
     /// <summary>
@@ -103,8 +97,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="adet">elindeki paket sayýsý</param>
     /// <returns></returns>
-    
-  
+
     public IEnumerator complete(GameObject other)
     {
         //yield return new WaitForSeconds(.05f);
@@ -116,16 +109,21 @@ public class PlayerController : MonoBehaviour
         if (gameObject.transform.childCount > 1)
         {
             gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOMove(target.transform.position, .3f).OnComplete(()=> gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
+         
             NodeMovement.instance.count--;
             NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
             yield return new WaitForSeconds(.8f);
+            //gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject.SetActive(false);
         }
         else
         {
+            GameObject cameraTarget = GameObject.Find("cameraTarget");
+
             duvarTarget = GameObject.Find("duvarTarget");
             PlayerMovement.instance.speed = 0;
-            vcam.LookAt = duvarTarget.transform;
-            //vcam.transform.position = new Vector3(vcam.transform.position.x, vcam.transform.position.y, vcam.transform.position.z + 5f);
+            vcam.LookAt = cameraTarget.transform;
+            vcam.Follow = cameraTarget.transform;
+            vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0, 1, -9f);
             StartCoroutine(instantiateMoney(target.transform.childCount*2));
         }
 
@@ -209,17 +207,20 @@ public class PlayerController : MonoBehaviour
         GameObject duvar = GameObject.Find("duvar");
         GameObject complete = GameObject.Find("completeTarget");
         duvarTarget = GameObject.Find("duvarTarget");
+        GameObject cameraTarget = GameObject.Find("cameraTarget");
+
         yield return new WaitForSeconds(.5f);
         float y =duvarTarget.transform.position.y;
+        float cameraY = cameraTarget.transform.position.y;
         for (int i = 0; i < adet; i++)
         {         
           GameObject ss= Instantiate(money,new Vector3(duvarTarget.transform.position.x,y, duvarTarget.transform.position.z), Quaternion.Euler(-90,90,0));
           ss.transform.parent = duvarTarget.transform;
-          y += .3f;
+          cameraTarget.transform.position = new Vector3(cameraTarget.transform.position.x, cameraY, cameraTarget.transform.position.z);
+         y += .3f;
+         cameraY += .3f;
           yield return new WaitForSeconds(.05f);
-          //vcam.Follow = duvar.transform.GetChild(duvar.transform.childCount - 1);
-
-
+         
         }
         if (complete.transform.childCount*2==duvarTarget.transform.childCount)
         {
@@ -239,8 +240,18 @@ public class PlayerController : MonoBehaviour
     public void PreStartingEvents()
 	{
         PlayerMovement.instance.transform.position = Vector3.zero;
-        //GameManager.instance.isContinue = true;
+        GameManager.instance.isContinue = false;
         SwerveMovement.instance.swerve = true;
+        //kamerayý düzeltmiyor
+        //vcam.enabled = false;
+        //vcam.transform.SetPositionAndRotation(new Vector3(0, 7.68f, -7.06f), Quaternion.Euler(new Vector3(0.8f,0,0)));
+        //vcam.enabled = true;
+        
+        firstCube.transform.localPosition = Vector3.zero;
+        vcam.LookAt = cameraLookAt.transform;
+        vcam.Follow = transform;
+        vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0, 7.68f, -9f);
+
     }
 
     /// <summary>
