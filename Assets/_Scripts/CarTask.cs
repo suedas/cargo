@@ -6,10 +6,10 @@ using DG.Tweening;
 public class CarTask : MonoBehaviour
 {
     public GameObject target;
-    public GameObject sag;
-    public GameObject sagFinish;
-    public GameObject sol;
-    public GameObject solFinish;
+   /// public GameObject sag;
+   // public GameObject sagFinish;
+   // public GameObject sol;
+   // public GameObject solFinish;
     public GameObject target1;
     public GameObject target2;
     private void OnTriggerEnter(Collider other)
@@ -17,7 +17,7 @@ public class CarTask : MonoBehaviour
         if (other.gameObject.CompareTag("last"))
         {
            // PlayerMovement.instance.speed = 1f;
-            if (gameObject.transform.childCount <= 4)
+            if (gameObject.transform.childCount <= 2)
             {
                 int count = gameObject.transform.childCount;
                 NodeMovement.instance.count--;
@@ -25,7 +25,7 @@ public class CarTask : MonoBehaviour
                 StartCoroutine(DelayAndJump(other.gameObject, count));
                 other.tag = "Untagged";
 
-                if (gameObject.transform.childCount == 4)
+                if (gameObject.transform.childCount == 2)
                 {
                     StartCoroutine(taskComplete());
                 }
@@ -69,7 +69,7 @@ public class CarTask : MonoBehaviour
         {
             yield return new WaitForSeconds(.5f);
 
-            gameObject.transform.DOMove(target1.transform.position, .8f).OnComplete(() => transform.Rotate(0, -90, 0));
+            gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, 45, 0));
             yield return new WaitForSeconds(.5f);
             gameObject.transform.DOMove(target2.transform.position, 3f).OnComplete(() => Destroy(gameObject));
 

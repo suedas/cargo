@@ -16,6 +16,7 @@ TagManager:
   - stack
   - ss
   - last
+  - bicycle
   layers:
   - Default
   - TransparentFX

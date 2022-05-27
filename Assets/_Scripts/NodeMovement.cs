@@ -42,11 +42,11 @@ public class NodeMovement : MonoBehaviour
         {
             
             int index = i;
-            Vector3 scale = new Vector3(1, 1, 1);
-            scale *= 1.5f;
+            Vector3 scale = new Vector3(.75f,.75f,.75f);
+            scale *= 1f;
 
             cargo[index].transform.DOScale(scale, 0.1f).OnComplete(() =>
-            cargo[index].transform.DOScale(new Vector3(1, 1, 1), 0.1f));
+            cargo[index].transform.DOScale(new Vector3(.5f, .5f, .5f), 0.1f));
             yield return new WaitForSeconds(0.05f);
         }
       

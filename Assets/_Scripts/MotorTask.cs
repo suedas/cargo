@@ -29,17 +29,7 @@ public class MotorTask : MonoBehaviour
                 StartCoroutine(DelayAndJump(other.gameObject,count));
                 other.GetComponent<Collider>().enabled = false;
                 other.tag = "Untagged";
-               // NodeMovement.instance.Origin();
-
-
-                //// other.transform.localPosition = Vector3.zero;
-                // other.gameObject.transform.DOLocalJump(new Vector3(target.transform.localPosition.x, target.transform.localPosition.y-3f+ count, target.transform.localPosition.z), 1, 1, .2f)
-                //.OnComplete(() => other.gameObject.transform.position = new Vector3(target.transform.localPosition.x, target.transform.localPosition.y - 3f + count, target.transform.localPosition.z));
-
-
-                //.Append(other.gameObject.transform.DOScale(2,1f)).Append(other.gameObject.transform.DOScale(1,1f)) 
-
-                // gönderirken ayný zamanda swerve yaparsan cargo baþka baþka yerlere gididyor.??????????????????????
+             
 
                 if (gameObject.transform.childCount == 2)
                 {
@@ -92,7 +82,7 @@ public class MotorTask : MonoBehaviour
         {
             yield return new WaitForSeconds(.5f);
 
-            gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, -90, 0));
+            gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, -50, 0));
             yield return new WaitForSeconds(.5f);
             gameObject.transform.DOMove(target2.transform.position, 3f).OnComplete(() => Destroy(gameObject));
 
