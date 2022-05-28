@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public GameObject duvarTarget;
     public GameObject cameraLookAt;
     public GameObject firstCube;
+    
    // public int listCount;
    // public int duvarChild;
  
@@ -109,7 +110,6 @@ public class PlayerController : MonoBehaviour
         if (gameObject.transform.childCount > 1)
         {
             gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOMove(target.transform.position, .3f).OnComplete(()=> gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
-         
             NodeMovement.instance.count--;
             NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
             yield return new WaitForSeconds(.8f);
