@@ -2,20 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class BicycleTask : MonoBehaviour
 {
     public GameObject target;
     public GameObject target1;
     public GameObject target2;
-
+    public GameObject paketText;
+    public GameObject paket;
+    int c = 0;
+     
     private void OnTriggerEnter(Collider other)
     {
-
+        
         if (other.gameObject.CompareTag("last"))
         {
+            int total = 4;
             //PlayerMovement.instance.speed = 1f;
-            if (gameObject.transform.childCount <= 3)
+            if (gameObject.transform.childCount <= total)
             {
                 int count = gameObject.transform.childCount;
                 NodeMovement.instance.count--;
@@ -25,7 +30,7 @@ public class BicycleTask : MonoBehaviour
                 other.tag = "Untagged";
 
 
-                if (gameObject.transform.childCount == 3)
+                if (gameObject.transform.childCount == total)
                 {
                     Debug.Log("task");
                     StartCoroutine(taskComplete());
@@ -48,6 +53,7 @@ public class BicycleTask : MonoBehaviour
 
     IEnumerator DelayAndJump(GameObject obj, int count)
     {
+        
         obj.transform.parent = null;
         obj.transform.DOKill();
         yield return new WaitForSeconds(.05f);
@@ -68,8 +74,10 @@ public class BicycleTask : MonoBehaviour
               .OnComplete(() => obj.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z));
 
         obj.transform.parent = transform;
-
-
+        c++;
+        paketText.GetComponent<TextMeshPro>().text = c + "/2";
+      
+             
     }
 
     public IEnumerator taskComplete()
@@ -78,6 +86,7 @@ public class BicycleTask : MonoBehaviour
         {
             yield return new WaitForSeconds(.5f);
 
+            paket.SetActive(false);
             gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, 45, 0));
             yield return new WaitForSeconds(.5f);
             gameObject.transform.DOMove(target2.transform.position, 3f).OnComplete(() => Destroy(gameObject));

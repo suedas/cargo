@@ -2,20 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class TricycleTask : MonoBehaviour
 {
     public GameObject target;
     public GameObject target1;
     public GameObject target2;
-
+    public GameObject paketText;
+    public GameObject paket;
+    int c = 0;
     private void OnTriggerEnter(Collider other)
     {
-
+        int total = 7;
         if (other.gameObject.CompareTag("last"))
         {
             //PlayerMovement.instance.speed = 1f;
-            if (gameObject.transform.childCount <= 3)
+            if (gameObject.transform.childCount <= total)
             {
                 int count = gameObject.transform.childCount;
                 NodeMovement.instance.count--;
@@ -25,7 +28,7 @@ public class TricycleTask : MonoBehaviour
                 other.tag = "Untagged";
 
 
-                if (gameObject.transform.childCount == 3)
+                if (gameObject.transform.childCount == total)
                 {
                     Debug.Log("task");
                     StartCoroutine(taskComplete());
@@ -68,7 +71,8 @@ public class TricycleTask : MonoBehaviour
               .OnComplete(() => obj.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z));
 
         obj.transform.parent = transform;
-
+        c++;
+        paketText.GetComponent<TextMeshPro>().text = c + "/5";
 
     }
 
@@ -77,6 +81,7 @@ public class TricycleTask : MonoBehaviour
         if (gameObject.transform.position.x < 0)
         {
             yield return new WaitForSeconds(.5f);
+            paket.SetActive(false);
 
             gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, 38, 0));
             yield return new WaitForSeconds(.5f);

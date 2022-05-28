@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class CarTask : MonoBehaviour
 {
@@ -12,12 +13,16 @@ public class CarTask : MonoBehaviour
    // public GameObject solFinish;
     public GameObject target1;
     public GameObject target2;
+    public GameObject paketText;
+    public GameObject paket;
+    int c = 0;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("last"))
         {
+            int total = 7;
            // PlayerMovement.instance.speed = 1f;
-            if (gameObject.transform.childCount <= 2)
+            if (gameObject.transform.childCount <= total)
             {
                 int count = gameObject.transform.childCount;
                 NodeMovement.instance.count--;
@@ -25,7 +30,7 @@ public class CarTask : MonoBehaviour
                 StartCoroutine(DelayAndJump(other.gameObject, count));
                 other.tag = "Untagged";
 
-                if (gameObject.transform.childCount == 2)
+                if (gameObject.transform.childCount == total)
                 {
                     StartCoroutine(taskComplete());
                 }
@@ -59,7 +64,8 @@ public class CarTask : MonoBehaviour
         obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .2f)
               .OnComplete(() => obj.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z));
         obj.transform.parent = transform;
-       
+        c++;
+        paketText.GetComponent<TextMeshPro>().text = c + "/6";
     }
     public IEnumerator taskComplete()
     {
@@ -68,6 +74,7 @@ public class CarTask : MonoBehaviour
         if (gameObject.transform.position.x > 0)
         {
             yield return new WaitForSeconds(.5f);
+            paket.SetActive(false);
 
             gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, 45, 0));
             yield return new WaitForSeconds(.5f);
