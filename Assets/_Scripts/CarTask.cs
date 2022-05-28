@@ -15,12 +15,13 @@ public class CarTask : MonoBehaviour
     public GameObject target2;
     public GameObject paketText;
     public GameObject paket;
+    public GameObject efect;
     int c = 0;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("last"))
         {
-            int total = 7;
+            int total = 8;
            // PlayerMovement.instance.speed = 1f;
             if (gameObject.transform.childCount <= total)
             {
@@ -69,8 +70,7 @@ public class CarTask : MonoBehaviour
     }
     public IEnumerator taskComplete()
     {
-
-
+        efect.SetActive(true);
         if (gameObject.transform.position.x > 0)
         {
             yield return new WaitForSeconds(.5f);

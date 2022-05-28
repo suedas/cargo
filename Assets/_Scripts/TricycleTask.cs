@@ -11,10 +11,12 @@ public class TricycleTask : MonoBehaviour
     public GameObject target2;
     public GameObject paketText;
     public GameObject paket;
+    public GameObject efect;
+
     int c = 0;
     private void OnTriggerEnter(Collider other)
     {
-        int total = 7;
+        int total = 8;
         if (other.gameObject.CompareTag("last"))
         {
             //PlayerMovement.instance.speed = 1f;
@@ -78,6 +80,7 @@ public class TricycleTask : MonoBehaviour
 
     public IEnumerator taskComplete()
     {
+        efect.SetActive(true);
         if (gameObject.transform.position.x < 0)
         {
             yield return new WaitForSeconds(.5f);
