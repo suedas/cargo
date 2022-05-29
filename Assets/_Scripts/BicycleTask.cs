@@ -18,14 +18,14 @@ public class BicycleTask : MonoBehaviour
         
         if (other.gameObject.CompareTag("last"))
         {
-            int total = 4;
+            int total = 5;
             //PlayerMovement.instance.speed = 1f;
             if (gameObject.transform.childCount <= total)
             {
                 int count = gameObject.transform.childCount;
                 NodeMovement.instance.count--;
 
-                StartCoroutine(DelayAndJump(other.gameObject, count));
+                StartCoroutine(DelayAndJump(other.gameObject, count-1));
                 other.GetComponent<Collider>().enabled = false;
                 other.tag = "Untagged";
 

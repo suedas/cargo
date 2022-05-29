@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class UiController : MonoBehaviour
 {
@@ -70,7 +71,7 @@ public class UiController : MonoBehaviour
 			while (tempScore < GameManager.instance.score)
 			{
 				tempScore++;
-				scoreText.text = tempScore.ToString();
+				scoreText.text =tempScore.ToString();
 				yield return new WaitForSeconds(.05f);
 			}
 		}
@@ -95,7 +96,10 @@ public class UiController : MonoBehaviour
 		winPanel.SetActive(true);
 	
 		int money=PlayerController.instance.duvarTarget.transform.childCount;
-		moneyText.text = money.ToString();
+		int x = money /4;
+		moneyText.text = (money*x).ToString();
+		//int totalScore = Int32.TryParse(scoreText.text) + (moneyText.text);
+		//scoreText.text = .ToString();
 	}
 
 
