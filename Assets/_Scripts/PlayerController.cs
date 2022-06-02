@@ -102,17 +102,17 @@ public class PlayerController : MonoBehaviour
     public IEnumerator complete(GameObject other)
     {
         //yield return new WaitForSeconds(.05f);
-        PlayerMovement.instance.speed = 2f;
+        PlayerMovement.instance.speed = 3f;
         
 
         target = GameObject.Find("completeTarget");
 
         if (gameObject.transform.childCount > 1)
         {
-            gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOMove(target.transform.position, .3f).OnComplete(()=> gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
+            gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOMove(target.transform.position, .2f).OnComplete(()=> gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
             NodeMovement.instance.count--;
             NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-            yield return new WaitForSeconds(.8f);
+            yield return new WaitForSeconds(.2f);
             //gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject.SetActive(false);
         }
         else
@@ -217,8 +217,8 @@ public class PlayerController : MonoBehaviour
           GameObject ss= Instantiate(money,new Vector3(duvarTarget.transform.position.x,y, duvarTarget.transform.position.z), Quaternion.Euler(-90,90,0));
           ss.transform.parent = duvarTarget.transform;
           cameraTarget.transform.position = new Vector3(cameraTarget.transform.position.x, cameraY, cameraTarget.transform.position.z);
-         y += .3f;
-         cameraY += .3f;
+           y += .3f;
+          cameraY += .3f;
           yield return new WaitForSeconds(.05f);
          
         }
@@ -263,7 +263,7 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.levelScore = 0;
         GameManager.instance.isContinue = true;
         SwerveMovement.instance.swerve =true;
-        PlayerMovement.instance.speed = 4f;
+        PlayerMovement.instance.speed = 6f;
 
 
     }

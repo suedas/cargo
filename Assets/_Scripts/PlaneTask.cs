@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-
+using TMPro;
 public class PlaneTask : MonoBehaviour
 {
     public GameObject target;
+    int c = 0;
+    public GameObject paketText;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("last"))
         {
-         
+            int total = 3;
            // PlayerMovement.instance.speed = 1f;
-            if (gameObject.transform.childCount <= 2)
+            if (gameObject.transform.childCount <= total)
             {
                 int count = gameObject.transform.childCount;
                 NodeMovement.instance.count--;
                 other.tag = "Untagged";
                 StartCoroutine(DelayAndJump(other.gameObject, count));
-                if (gameObject.transform.childCount ==2)
+                if (gameObject.transform.childCount ==total)
                 {
                     StartCoroutine(taskComplete());
                 }
@@ -54,13 +57,14 @@ public class PlaneTask : MonoBehaviour
         obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .05f)
               .OnComplete(() => obj.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z));
         obj.transform.parent = transform;
-        
+        c++;
+        paketText.GetComponent<TextMeshPro>().text = c + "/1";
 
     }
     public IEnumerator taskComplete()
     {
         yield return new WaitForSeconds(.5f);
-        gameObject.transform.DOJump(new Vector3(transform.position.x, 20, transform.position.z),1,1,.8f).OnComplete(()=>Destroy(gameObject));
+        gameObject.transform.DOJump(new Vector3(transform.position.x, 20, transform.position.z),1,1,2f).OnComplete(()=>Destroy(gameObject));
        
         //gameObject.transform.DOMove(new Vector3(0.1f, 0, 111f), 2f).OnComplete(() => Destroy(gameObject));
 

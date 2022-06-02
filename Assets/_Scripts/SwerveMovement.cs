@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SwerveMovement : MonoBehaviour
 {
-    [SerializeField] private float swerveSpeed = .5f;
-    [SerializeField] private float maxSwerveAmount = 2;
+    [SerializeField] private float swerveSpeed = 1.5f;
+    [SerializeField] private float maxSwerveAmount = .2f;
     [SerializeField] private float maxHorizontalDistance = 2;
 
     // Tiklama ile hizli yer degisiminin onune gecer.

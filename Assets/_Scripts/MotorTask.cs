@@ -16,6 +16,7 @@ public class MotorTask : MonoBehaviour
     //public GameObject solFinish;
     public GameObject target1;
     public GameObject target2;
+    public GameObject target3;
     public GameObject paketText;
     public GameObject paket;
     public GameObject efect;
@@ -52,10 +53,7 @@ public class MotorTask : MonoBehaviour
         }
       
     }
-    private void OnTriggerExit(Collider other)
-    {      
-        PlayerMovement.instance.speed = 4f;     
-    }
+    
     IEnumerator DelayAndJump(GameObject obj, int count)
     {
         obj.transform.parent = null;
@@ -93,7 +91,9 @@ public class MotorTask : MonoBehaviour
             paket.SetActive(false);
             gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, -50, 0));
             yield return new WaitForSeconds(.5f);
-            gameObject.transform.DOMove(target2.transform.position, 3f).OnComplete(() => Destroy(gameObject));
+            gameObject.transform.DOMove(target2.transform.position, 3f).OnComplete(() => transform.Rotate(0, -50, 0));
+            yield return new WaitForSeconds(3f);
+            gameObject.transform.DOMove(target3.transform.position, .5f).OnComplete(() => Destroy(gameObject));
 
         }
  
