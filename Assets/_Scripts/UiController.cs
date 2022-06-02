@@ -98,8 +98,8 @@ public class UiController : MonoBehaviour
 		int money=PlayerController.instance.duvarTarget.transform.childCount;
 		int x = money /4;
 		moneyText.text = (money*x).ToString();
-		//int totalScore = Int32.TryParse(scoreText.text) + (moneyText.text);
-		//scoreText.text = .ToString();
+		int totalScore = Convert.ToInt32(scoreText.text) + Convert.ToInt32(moneyText.text);
+		scoreText.text = totalScore.ToString();
 	}
 
 

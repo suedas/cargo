@@ -8,6 +8,7 @@ public class PlaneTask : MonoBehaviour
     public GameObject target;
     int c = 0;
     public GameObject paketText;
+    public GameObject paket;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -63,6 +64,7 @@ public class PlaneTask : MonoBehaviour
     }
     public IEnumerator taskComplete()
     {
+        paket.SetActive(false);
         yield return new WaitForSeconds(.5f);
         gameObject.transform.DOJump(new Vector3(transform.position.x, 20, transform.position.z),1,1,2f).OnComplete(()=>Destroy(gameObject));
        

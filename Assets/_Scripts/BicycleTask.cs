@@ -9,6 +9,7 @@ public class BicycleTask : MonoBehaviour
     public GameObject target;
     public GameObject target1;
     public GameObject target2;
+    public GameObject target3;
     public GameObject paketText;
     public GameObject paket;
     int c = 0;
@@ -46,10 +47,7 @@ public class BicycleTask : MonoBehaviour
 
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        PlayerMovement.instance.speed = 4f;
-    }
+  
 
     IEnumerator DelayAndJump(GameObject obj, int count)
     {
@@ -82,14 +80,29 @@ public class BicycleTask : MonoBehaviour
 
     public IEnumerator taskComplete()
     {
-        if (gameObject.transform.position.x < 0)
+        if (gameObject.transform.position.x > 0)
+        {
+
+
+            yield return new WaitForSeconds(.5f);
+
+            paket.SetActive(false);
+            gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, -45, 0));
+            yield return new WaitForSeconds(.5f);
+            gameObject.transform.DOMove(target2.transform.position, 2f).OnComplete(() => transform.Rotate(0, -50, 0));
+            yield return new WaitForSeconds(2f);
+            gameObject.transform.DOMove(target3.transform.position, .5f).OnComplete(() => Destroy(gameObject));
+        }
+        else
         {
             yield return new WaitForSeconds(.5f);
 
             paket.SetActive(false);
             gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, 45, 0));
             yield return new WaitForSeconds(.5f);
-            gameObject.transform.DOMove(target2.transform.position, 3f).OnComplete(() => Destroy(gameObject));
+            gameObject.transform.DOMove(target2.transform.position, 2f).OnComplete(() => transform.Rotate(0, 50, 0));
+            yield return new WaitForSeconds(2f);
+            gameObject.transform.DOMove(target3.transform.position, .5f).OnComplete(() => Destroy(gameObject));
 
         }
 

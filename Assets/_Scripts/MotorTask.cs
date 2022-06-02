@@ -96,6 +96,16 @@ public class MotorTask : MonoBehaviour
             gameObject.transform.DOMove(target3.transform.position, .5f).OnComplete(() => Destroy(gameObject));
 
         }
+        else
+        {
+            yield return new WaitForSeconds(.5f);
+            paket.SetActive(false);
+            gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, 50, 0));
+            yield return new WaitForSeconds(.5f);
+            gameObject.transform.DOMove(target2.transform.position, 3f).OnComplete(() => transform.Rotate(0, 50, 0));
+            yield return new WaitForSeconds(3f);
+            gameObject.transform.DOMove(target3.transform.position, .5f).OnComplete(() => Destroy(gameObject));
+        }
  
     }
     //public IEnumerator taskComplete()
