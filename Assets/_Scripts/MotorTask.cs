@@ -27,7 +27,7 @@ public class MotorTask : MonoBehaviour
      
         if (other.gameObject.CompareTag("last"))
         {
-            int total = 5;   
+            int total = 6;   
             PlayerMovement.instance.speed = 2f;
             if (gameObject.transform.childCount <= total)
             {

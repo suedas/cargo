@@ -18,6 +18,7 @@ TagManager:
   - last
   - bicycle
   - para
+  - origin
   layers:
   - Default
   - TransparentFX

@@ -19,7 +19,7 @@ public class BicycleTask : MonoBehaviour
         
         if (other.gameObject.CompareTag("last"))
         {
-            int total = 5;
+            int total = 6;
             PlayerMovement.instance.speed = 3f;
             if (gameObject.transform.childCount <= total)
             {
