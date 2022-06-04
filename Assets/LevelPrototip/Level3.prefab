@@ -1693,6 +1693,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1991205007549486539, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.27059805
+      objectReference: {fileID: 0}
+    - target: {fileID: 1991205007549486539, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.27059805
+      objectReference: {fileID: 0}
+    - target: {fileID: 1991205007549486539, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.6532815
+      objectReference: {fileID: 0}
+    - target: {fileID: 1991205007549486539, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6532815
+      objectReference: {fileID: 0}
+    - target: {fileID: 1991205007549486539, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -135
+      objectReference: {fileID: 0}
     - target: {fileID: 2393149334453852386, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
       propertyPath: m_Name
       value: Motor

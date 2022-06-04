@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 8345583959079892825}
   paketText: {fileID: 3488780368829671108}
+  paket: {fileID: 8380259147995877523}
 --- !u!1 &8345583959079892825
 GameObject:
   m_ObjectHideFlags: 0
