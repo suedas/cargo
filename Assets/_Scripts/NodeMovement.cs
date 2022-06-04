@@ -8,7 +8,7 @@ public class NodeMovement : MonoBehaviour
     public List<GameObject> cargo = new List<GameObject>();
     //public GameObject player;
     //public Transform connectedNode;
-    public float delay = 0.1f;
+    public float delay = 0.05f;
     public int count;
     #region Singleton
     public static NodeMovement instance;

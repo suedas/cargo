@@ -28,7 +28,7 @@ public class MotorTask : MonoBehaviour
         if (other.gameObject.CompareTag("last"))
         {
             int total = 5;   
-            //PlayerMovement.instance.speed = 1f;
+            PlayerMovement.instance.speed = 2f;
             if (gameObject.transform.childCount <= total)
             {
                 int count = gameObject.transform.childCount;
@@ -53,7 +53,11 @@ public class MotorTask : MonoBehaviour
         }
       
     }
-    
+    private void OnTriggerExit(Collider other)
+    {
+        PlayerMovement.instance.speed = 6f;        
+    }
+
     IEnumerator DelayAndJump(GameObject obj, int count)
     {
         obj.transform.parent = null;
@@ -72,7 +76,7 @@ public class MotorTask : MonoBehaviour
         //obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y - 3f + count, target.transform.position.z), 1, 1, .2f);
         //obj.transform.parent = transform;
 
-        obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .2f)
+        obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .08f)
               .OnComplete(() => obj.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y  + count, target.transform.position.z));
 
         obj.transform.parent = transform;
@@ -84,10 +88,11 @@ public class MotorTask : MonoBehaviour
 
     public IEnumerator taskComplete()
     {
+
         efect.SetActive(true);
         if (gameObject.transform.position.x > 0)
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.05f);
             paket.SetActive(false);
             gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, -50, 0));
             yield return new WaitForSeconds(.5f);
@@ -98,7 +103,7 @@ public class MotorTask : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.05f);
             paket.SetActive(false);
             gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, 50, 0));
             yield return new WaitForSeconds(.5f);

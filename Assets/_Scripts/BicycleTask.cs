@@ -20,7 +20,7 @@ public class BicycleTask : MonoBehaviour
         if (other.gameObject.CompareTag("last"))
         {
             int total = 5;
-            //PlayerMovement.instance.speed = 1f;
+            PlayerMovement.instance.speed = 3f;
             if (gameObject.transform.childCount <= total)
             {
                 int count = gameObject.transform.childCount;
@@ -46,8 +46,12 @@ public class BicycleTask : MonoBehaviour
         }
 
     }
+    private void OnTriggerExit(Collider other)
+    {
+        PlayerMovement.instance.speed = 6f;
+    }
 
-  
+
 
     IEnumerator DelayAndJump(GameObject obj, int count)
     {
@@ -68,7 +72,7 @@ public class BicycleTask : MonoBehaviour
         //obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y - 3f + count, target.transform.position.z), 1, 1, .2f);
         //obj.transform.parent = transform;
 
-        obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .2f)
+        obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .08f)
               .OnComplete(() => obj.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z));
 
         obj.transform.parent = transform;
@@ -84,7 +88,7 @@ public class BicycleTask : MonoBehaviour
         {
 
 
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.05f);
 
             paket.SetActive(false);
             gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, -45, 0));
@@ -95,7 +99,7 @@ public class BicycleTask : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.05f);
 
             paket.SetActive(false);
             gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.Rotate(0, 45, 0));

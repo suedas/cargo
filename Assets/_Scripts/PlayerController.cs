@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
             // bazý oyunlarda farkli parametlere göre kontrol etmek veya oyun sonunda karakterin yola devam etmesi gibi
             // durumlarda developer burayý kendisi duzenlemelidir.
             SwerveMovement.instance.swerve = false;
+            NodeMovement.instance.Origin();
             // target = GameObject.Find("completeTarget");
             //  listCount = NodeMovement.instance.cargo.Count-1;
             // Debug.Log(listCount);

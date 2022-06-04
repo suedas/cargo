@@ -9,6 +9,7 @@ public class UiController : MonoBehaviour
 {
 	#region Singleton
 	public static UiController instance;
+	public int totalScore;
 	void Awake()
 	{
 		if (instance == null) instance = this;
@@ -25,7 +26,7 @@ public class UiController : MonoBehaviour
 		tapToStartPanel.SetActive(true);
 		winPanel.SetActive(false);
 		losePanel.SetActive(false);
-		scoreText.text = PlayerPrefs.GetInt("score").ToString();
+		scoreText.text =PlayerPrefs.GetInt("score").ToString();
 		levelText.text = "LEVEL " + LevelController.instance.totalLevelNo.ToString();
 		
 	}
@@ -66,24 +67,25 @@ public class UiController : MonoBehaviour
 	IEnumerator SetScoreTextAnim()
 	{
 		int tempScore = int.Parse(scoreText.text);
-		if(tempScore < GameManager.instance.score)
-		{
-			while (tempScore < GameManager.instance.score)
-			{
+		//if(tempScore < GameManager.instance.score)
+		//{
+			//while (tempScore < GameManager.instance.score)
+			//{
 				tempScore++;
 				scoreText.text =tempScore.ToString();
 				yield return new WaitForSeconds(.05f);
-			}
-		}
-		else if(tempScore > GameManager.instance.score)
-		{
-			while (tempScore > GameManager.instance.score)
-			{
-				tempScore--;
-				scoreText.text = tempScore.ToString();
-				yield return new WaitForSeconds(.05f);
-			}
-		}		
+			//}
+		//}
+		//else if(tempScore > GameManager.instance.score)
+		//{
+			//while (tempScore > GameManager.instance.score)
+			//{
+			//	tempScore--;
+			//	scoreText.text = tempScore.ToString();
+			//	yield return new WaitForSeconds(.05f);
+			//}
+		
+		//}		
 	}
 
 	public void SetLevelText()
@@ -98,7 +100,7 @@ public class UiController : MonoBehaviour
 		int money=PlayerController.instance.duvarTarget.transform.childCount;
 		int x = money /4;
 		moneyText.text = (money*x).ToString();
-		int totalScore = Convert.ToInt32(scoreText.text) + Convert.ToInt32(moneyText.text);
+		 totalScore = Convert.ToInt32(scoreText.text) + Convert.ToInt32(moneyText.text);
 		scoreText.text = totalScore.ToString();
 	}
 
