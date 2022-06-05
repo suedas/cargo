@@ -77,9 +77,9 @@ public class TaskManager : MonoBehaviour
         {
             yield return new WaitForSeconds(.05f);      
             paket.SetActive(false);
-            gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.LookAt(target2.transform,Vector3.down));
+            gameObject.transform.DOMove(target1.transform.position, .5f).SetEase(Ease.Linear).OnComplete(() => transform.LookAt(target2.transform));
             yield return new WaitForSeconds(.5f);
-            gameObject.transform.DOMove(target2.transform.position, 3f).OnComplete(() => transform.LookAt(target3.transform,Vector3.down));
+            gameObject.transform.DOMove(target2.transform.position, 3f).OnComplete(() => transform.LookAt(target3.transform));
             yield return new WaitForSeconds(3f);
             gameObject.transform.DOMove(target3.transform.position, .5f).OnComplete(() => Destroy(gameObject));
         }
