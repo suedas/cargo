@@ -267,7 +267,7 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.levelScore = 0;
         GameManager.instance.isContinue = true;
         SwerveMovement.instance.swerve =true;
-        PlayerMovement.instance.speed = 6f;
+        PlayerMovement.instance.speed = 10f;
 
 
     }

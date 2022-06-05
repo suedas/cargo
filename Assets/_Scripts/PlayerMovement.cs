@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
     
-    public float speed = 6f;
+    public float speed = 10f;
     public GameObject player;
 
     private void Update()
