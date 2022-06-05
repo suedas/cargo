@@ -14,17 +14,15 @@ public class ObstacleManager : MonoBehaviour
         ss.tag = "last";
         if (other.gameObject.tag == "last")
         {
-            PlayerMovement.instance.speed = 2f;
+            //PlayerMovement.instance.speed = 2f;
             PlayerController.instance.Shake();
             if (player.transform.childCount > 1)
             {
-                box= Instantiate(crack, transform.position, transform.rotation);
+                box = Instantiate(crack, transform.position, transform.rotation);
                 NodeMovement.instance.count--;
-                NodeMovement.instance.cargo.Remove(other.gameObject);
+                NodeMovement.instance.cargo.Remove(other.gameObject);       
+                StartCoroutine(destroyCrack(box));
                 Destroy(other.gameObject);
-             
-                StartCoroutine(destroyCrack());
-              
             }
             else
             {
@@ -32,17 +30,17 @@ public class ObstacleManager : MonoBehaviour
             }
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        PlayerMovement.instance.speed = 6f;
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    PlayerMovement.instance.speed = 6f;
+    //}
 
 
-    IEnumerator destroyCrack()
+    IEnumerator destroyCrack(GameObject obj)
     {
         yield return new WaitForSeconds(.2f);
        
-        Destroy(box);
+        Destroy(obj);
       
        
     }

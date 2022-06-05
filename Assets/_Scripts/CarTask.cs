@@ -18,41 +18,41 @@ public class CarTask : MonoBehaviour
     public GameObject paket;
     public GameObject efect;
     int c = 0;
+    public int maxCargoCount;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("last"))
         {
-            int total = 8;
-            PlayerMovement.instance.speed = 2f;
-            if (gameObject.transform.childCount <= total)
+            //PlayerMovement.instance.speed = 2f;
+            if (c <= maxCargoCount)
             {
-                int count = gameObject.transform.childCount;
+                c++;
                 NodeMovement.instance.count--;
-
-                StartCoroutine(DelayAndJump(other.gameObject, count));
+                StartCoroutine(DelayAndJump(other.gameObject, c));
                 other.tag = "Untagged";
 
-                if (gameObject.transform.childCount == total)
+                if (c == maxCargoCount)
                 {
                     StartCoroutine(taskComplete());
                 }
             }
-            if (GameObject.Find("Player").transform.childCount == 1)
+            if (PlayerController.instance.transform.childCount == 1)
             {
                 UiController.instance.OpenLosePanel();
             }
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        PlayerMovement.instance.speed = 6f;
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    PlayerMovement.instance.speed = 6f;
+    //}
 
     IEnumerator DelayAndJump(GameObject obj, int count)
     {
         obj.transform.parent = null;
         obj.transform.DOKill();
-        GameObject player = GameObject.Find("Player");
+        GameObject ss = PlayerController.instance.transform.GetChild(PlayerController.instance.transform.childCount - 1).gameObject;
+        ss.tag = "last";
         yield return new WaitForSeconds(.05f);
         NodeMovement.instance.cargo.Remove(obj);
 
@@ -61,17 +61,17 @@ public class CarTask : MonoBehaviour
         //obj.transform.parent = transform;
         //obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y - 3f + count, target.transform.position.z), 1, 1, .2f);
         //obj.transform.parent = transform;
-        GameObject ss = player.transform.GetChild(player.transform.childCount - 1).gameObject;
-        ss.tag = "last";
 
-        obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z), 1, 1, .08f)
-              .OnComplete(() => obj.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + count, target.transform.position.z));
+
+        obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count-1, target.transform.position.z), 1, 1, .08f)
+              .OnComplete(() => obj.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + count-1, target.transform.position.z));
         obj.transform.parent = transform;
-        c++;
-        paketText.GetComponent<TextMeshPro>().text = c + "/6";
+        paketText.GetComponent<TextMeshPro>().text = c + "/" + maxCargoCount.ToString() ;
     }
     public IEnumerator taskComplete()
     {
+       PlayerMovement.instance.speed = 6f;
+        Debug.Log("hizlandi");
         efect.SetActive(true);
         if (gameObject.transform.position.x > 0)
         {

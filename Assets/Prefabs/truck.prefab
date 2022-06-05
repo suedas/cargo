@@ -124,9 +124,11 @@ MonoBehaviour:
   target: {fileID: 5785756266578385213}
   target1: {fileID: 0}
   target2: {fileID: 0}
+  target3: {fileID: 0}
   paketText: {fileID: 5582220037131096470}
   paket: {fileID: 674991863298893761}
   efect: {fileID: 3637304400226741741}
+  maxCargoCount: 6
 --- !u!1 &3637304400226741741
 GameObject:
   m_ObjectHideFlags: 0
@@ -4963,7 +4965,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5785756266578385213}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.487, z: 0.71}
+  m_LocalPosition: {x: 0, y: 0.195, z: 0.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

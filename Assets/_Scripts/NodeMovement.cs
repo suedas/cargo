@@ -28,23 +28,16 @@ public class NodeMovement : MonoBehaviour
         newPos.z += 1;
         other.transform.localPosition = newPos;
         cargo.Add(other);
-        count = cargo.Count - 1;
-       
-        StartCoroutine(Scale());
-       
-        
+        count = cargo.Count - 1;     
+        StartCoroutine(Scale());      
     }
     public IEnumerator Scale()
-    {
-    
-       
+    {     
         for (int i = count; i > 0; i--)
         {
-            
             int index = i;
             Vector3 scale = new Vector3(.75f,.75f,.75f);
             scale *= 1f;
-
             cargo[index].transform.DOScale(scale, 0.1f).OnComplete(() =>
             cargo[index].transform.DOScale(new Vector3(.5f, .5f, .5f), 0.1f));
             yield return new WaitForSeconds(0.05f);
@@ -59,9 +52,9 @@ public class NodeMovement : MonoBehaviour
             Vector3 pos = cargo[i].transform.localPosition;
             pos.x = cargo[i - 1].transform.localPosition.x;
             cargo[i].transform.DOLocalMove(pos, delay);
-
         }
     }
+
     public void Origin()
     {
         for (int i = 1; i <= count; i++)
@@ -69,7 +62,6 @@ public class NodeMovement : MonoBehaviour
             Vector3 pos = cargo[i].transform.localPosition;
             pos.x = cargo[0].transform.localPosition.x;
             cargo[i].transform.DOLocalMove(pos, 0.70f);
-
         }
     }
 

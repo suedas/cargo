@@ -62,12 +62,12 @@ public class MotorTask : MonoBehaviour
     {
         obj.transform.parent = null;
         obj.transform.DOKill();
+        GameObject ss = PlayerController.instance.transform.GetChild(PlayerController.instance.transform.childCount - 1).gameObject;
+        ss.tag = "last";
         yield return new WaitForSeconds(.05f);
         NodeMovement.instance.cargo.Remove(obj);
 
-        GameObject player = GameObject.Find("Player");
-        GameObject ss = player.transform.GetChild(player.transform.childCount - 1).gameObject;
-        ss.tag = "last";
+
         //yield return new WaitForSeconds(.1f);
         obj.transform.position = target.transform.position + new Vector3(0,-.5f,-1f);
         //obj.transform.position 
@@ -88,7 +88,7 @@ public class MotorTask : MonoBehaviour
 
     public IEnumerator taskComplete()
     {
-
+        PlayerMovement.instance.speed = 6f;
         efect.SetActive(true);
         if (gameObject.transform.position.x > 0)
         {
