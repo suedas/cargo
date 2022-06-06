@@ -90,10 +90,7 @@ public class PlayerController : MonoBehaviour
 
 
         }
-        else if (other.CompareTag("origin"))
-        {
-            NodeMovement.instance.Origin();
-        }
+       
        
 
     }
@@ -113,10 +110,10 @@ public class PlayerController : MonoBehaviour
 
         if (gameObject.transform.childCount > 1)
         {
-            gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOMove(target.transform.position, .2f).OnComplete(()=> gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
+            gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOMove(target.transform.position, .3f).OnComplete(()=> gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
             NodeMovement.instance.count--;
             NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.3f);
             //gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject.SetActive(false);
         }
         else

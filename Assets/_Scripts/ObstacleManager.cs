@@ -29,6 +29,10 @@ public class ObstacleManager : MonoBehaviour
                 UiController.instance.OpenLosePanel();
             }
         }
+        else if (other.gameObject.tag=="stack")
+        {
+            StartCoroutine(stackDestroy(other.gameObject));
+        }
     }
     //private void OnTriggerExit(Collider other)
     //{
@@ -43,6 +47,21 @@ public class ObstacleManager : MonoBehaviour
         Destroy(obj);
       
        
+    }
+    IEnumerator stackDestroy(GameObject other)
+    {
+        yield return new WaitForSeconds(.01f);
+        int num = other.gameObject.transform.GetSiblingIndex();
+        int cargosCount = NodeMovement.instance.cargo.Count;
+        for (int i = num; i < cargosCount; i++)
+        { //dokilll
+            //box = Instantiate(crack, transform.position, transform.rotation);
+            Destroy(NodeMovement.instance.cargo[i]);
+            // NodeMovement.instance.count--;
+            NodeMovement.instance.cargo.Remove(NodeMovement.instance.cargo[i]);
+           
+            //StartCoroutine(destroyCrack(box));
+        }
     }
 }
 
