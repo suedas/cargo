@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
                     ss.tag = "last";
                     if (player.transform.GetChild(player.transform.childCount - 1).gameObject.tag == "last")
                     {
-                        for (int i = 0; i < player.transform.childCount - 1; i++)
+                        for (int i = 1; i < player.transform.childCount - 1; i++)
                         {
                             player.transform.GetChild(i).gameObject.tag = "stack";
                         }
