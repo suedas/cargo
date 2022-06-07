@@ -78,12 +78,13 @@ public class PlayerController : MonoBehaviour
             // bazý oyunlarda farkli parametlere göre kontrol etmek veya oyun sonunda karakterin yola devam etmesi gibi
             // durumlarda developer burayý kendisi duzenlemelidir.
             SwerveMovement.instance.swerve = false;
+
             // target = GameObject.Find("completeTarget");
             //  listCount = NodeMovement.instance.cargo.Count-1;
             // Debug.Log(listCount);
 
-           
-            StartCoroutine(complete(other.gameObject));
+            //Tamamla();
+           // StartCoroutine(complete());
             //vcam.enabled = false;
             //vcam.transform.SetPositionAndRotation(new Vector3(0, 0, 0), Quaternion.identity);
             //vcam.enabled = true;
@@ -94,33 +95,56 @@ public class PlayerController : MonoBehaviour
        
 
     }
+
+
+    void Tamamla()
+	{
+        target = GameObject.Find("completeTarget");
+        foreach (GameObject obj in NodeMovement.instance.cargo)
+		{
+
+			if (!obj.transform.CompareTag("Player"))
+			{
+                obj.transform.DOKill();
+                obj.transform.DOMove(target.transform.position, .3f).OnComplete(() => obj.transform.parent = target.transform);
+            }
+            else
+            {
+                GameObject cameraTarget = GameObject.Find("cameraTarget");
+                duvarTarget = GameObject.Find("duvarTarget");
+                PlayerMovement.instance.speed = 0;
+                vcam.LookAt = cameraTarget.transform;
+                vcam.Follow = cameraTarget.transform;
+                vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0, 1, -9f);
+                StartCoroutine(instantiateMoney(target.transform.childCount * 2));
+            }
+        }
+	}
+
+
     /// <summary>
     /// fnish çizgizine geldiðinde elindeki paketleri makineye gönderir.
     /// </summary>
     /// <param name="adet">elindeki paket sayýsý</param>
     /// <returns></returns>
 
-    public IEnumerator complete(GameObject other)
+    public IEnumerator complete()
     {
         //yield return new WaitForSeconds(.05f);
         PlayerMovement.instance.speed = 3f;
-        
-
         target = GameObject.Find("completeTarget");
 
-        if (gameObject.transform.childCount > 1)
+        if (transform.childCount > 1)
         {
-            gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOMove(target.transform.position, .3f).OnComplete(()=> gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
+            gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOMove(target.transform.position, .2f).OnComplete(()=> gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
             NodeMovement.instance.count--;
             NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-            yield return new WaitForSeconds(.3f);
+            yield return new WaitForSeconds(.2f);
             //gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject.SetActive(false);
         }
         else
         {
             GameObject cameraTarget = GameObject.Find("cameraTarget");
-
-            duvarTarget = GameObject.Find("duvarTarget");
             PlayerMovement.instance.speed = 0;
             vcam.LookAt = cameraTarget.transform;
             vcam.Follow = cameraTarget.transform;
@@ -140,7 +164,7 @@ public class PlayerController : MonoBehaviour
   /// <returns></returns>
     public IEnumerator instantiateMoney(int adet)
     {
-        GameObject duvar = GameObject.Find("duvar");
+
         GameObject complete = GameObject.Find("completeTarget");
         duvarTarget = GameObject.Find("duvarTarget");
         GameObject cameraTarget = GameObject.Find("cameraTarget");
@@ -164,8 +188,16 @@ public class PlayerController : MonoBehaviour
             UiController.instance.OpenWinPanel();
         }
     }
-
-
+    public void WinEvent()
+	{
+        GameObject cameraTarget = GameObject.Find("cameraTarget");
+        GameObject target = GameObject.Find("completeTarget");
+        PlayerMovement.instance.speed = 0;
+        vcam.LookAt = cameraTarget.transform;
+        vcam.Follow = cameraTarget.transform;
+        vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0, 1, -9f);
+        StartCoroutine(instantiateMoney(target.transform.childCount * 2));
+    }
 
     /// <summary>
     /// next level veya restart level butonuna tiklayinca karakter sifir konumuna tekrar alinir. (baslangic konumu)

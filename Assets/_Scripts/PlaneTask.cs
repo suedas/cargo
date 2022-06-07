@@ -75,7 +75,8 @@ public class PlaneTask : MonoBehaviour
     public IEnumerator taskComplete()
     {
         paket.SetActive(false);
-        yield return new WaitForSeconds(.5f);
+        gameObject.transform.DOKill();
+        yield return new WaitForSeconds(.1f);
         gameObject.transform.DOJump(new Vector3(transform.position.x, 20, transform.position.z),1,1,2f).OnComplete(()=>Destroy(gameObject));
        
         //gameObject.transform.DOMove(new Vector3(0.1f, 0, 111f), 2f).OnComplete(() => Destroy(gameObject));

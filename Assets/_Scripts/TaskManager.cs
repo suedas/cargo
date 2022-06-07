@@ -19,23 +19,24 @@ public class TaskManager : MonoBehaviour
     public bool isParticle;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("last"))
+        if (other.gameObject.CompareTag("last")&& NodeMovement.instance.cargo.Count>1)
         {
             Debug.Log("girdi");
             //PlayerMovement.instance.speed = 2f;
-            if (c <= maxCargoCount && PlayerController.instance.transform.childCount>1)
+            if (c < maxCargoCount && PlayerController.instance.transform.childCount>1)
             {
                
                     c++;
                     NodeMovement.instance.count--;
-                    StartCoroutine(DelayAndJump(other.gameObject, c));
-                    other.tag = "Untagged";
-
                     if (c == maxCargoCount)
                     {
+                        GetComponent<Collider>().enabled = false;
                         Debug.Log("dronetask");
                         StartCoroutine(taskComplete());
                     }
+
+                    StartCoroutine(DelayAndJump(other.gameObject, c));
+                    other.tag = "Untagged";
 
               
           
@@ -56,7 +57,11 @@ public class TaskManager : MonoBehaviour
             obj.transform.DOKill();
 
             GameObject ss = PlayerController.instance.transform.GetChild(PlayerController.instance.transform.childCount - 1).gameObject;
-            ss.tag = "last";
+			if (ss.tag!="Player")
+			{
+			ss.tag = "last";
+
+			}
             yield return new WaitForSeconds(.05f);
             NodeMovement.instance.cargo.Remove(obj);
             obj.gameObject.transform.DOJump(new Vector3(target.transform.position.x, target.transform.position.y + count - 1, target.transform.position.z), 1, 1, .08f)

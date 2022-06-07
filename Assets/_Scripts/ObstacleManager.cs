@@ -51,7 +51,7 @@ public class ObstacleManager : MonoBehaviour
 
     IEnumerator destroyCrack(GameObject obj)
     {
-        yield return new WaitForSeconds(.2f);     
+        yield return new WaitForSeconds(1f);     
         Destroy(obj);           
     }
     IEnumerator stackDestroy(GameObject other)
@@ -60,26 +60,22 @@ public class ObstacleManager : MonoBehaviour
         int num = other.gameObject.transform.GetSiblingIndex();
         cargosCount = NodeMovement.instance.cargo.Count-1;
         int adet = cargosCount - num;
-     ;
+     
         //other.transform.DOKill();
         for (int i = 0; i < adet; i++)
         {
-            //box = Instantiate(crack, transform.position, transform.rotation);
             
             if (NodeMovement.instance.cargo[NodeMovement.instance.cargo.Count - 1] != null)
             {
                 box = Instantiate(crack, transform.position, transform.rotation);
                 StartCoroutine(destroyCrack(box));
+                NodeMovement.instance.count--;
                 NodeMovement.instance.cargo[NodeMovement.instance.cargo.Count - 1].transform.DOKill();
                   Destroy(NodeMovement.instance.cargo[NodeMovement.instance.cargo.Count - 1].gameObject);
-                NodeMovement.instance.count--;
                 NodeMovement.instance.cargo.Remove(NodeMovement.instance.cargo[NodeMovement.instance.cargo.Count - 1]);
              
             }
 
-
-
-            //StartCoroutine(destroyCrack(box));
         }
     }
 }
