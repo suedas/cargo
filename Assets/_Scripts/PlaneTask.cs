@@ -43,10 +43,18 @@ public class PlaneTask : MonoBehaviour
     {
         //obj.transform.parent = null;
 
-        obj.transform.DOKill();
-        obj.transform.parent = null;
-        GameObject ss = PlayerController.instance.transform.GetChild(PlayerController.instance.transform.childCount - 1).gameObject;
-        ss.tag = "last";
+            obj.transform.DOKill();
+            obj.transform.parent = null;
+            GameObject ss = PlayerController.instance.transform.GetChild(PlayerController.instance.transform.childCount - 1).gameObject;
+            ss.tag = "last"; 
+        
+        if (PlayerController.instance.transform.childCount > 1)
+        {
+            //if (PlayerController.instance.transform.GetChild(PlayerController.instance.transform.childCount - 1).gameObject != NodeMovement.instance.cargo[0])
+            //{
+            //}
+
+        }
         yield return new WaitForSeconds(.05f);
         NodeMovement.instance.cargo.Remove(obj);
 
@@ -61,6 +69,7 @@ public class PlaneTask : MonoBehaviour
         obj.transform.parent = transform;
         c++;
         paketText.GetComponent<TextMeshPro>().text = c + "/1";
+
 
     }
     public IEnumerator taskComplete()

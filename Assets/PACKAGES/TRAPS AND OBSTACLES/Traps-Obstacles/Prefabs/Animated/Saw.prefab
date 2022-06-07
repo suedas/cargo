@@ -96,6 +96,8 @@ GameObject:
   - component: {fileID: 5330404051415750526}
   - component: {fileID: 5526629968220709601}
   - component: {fileID: 5238120210858558709}
+  - component: {fileID: 572545235401916648}
+  - component: {fileID: 4501274446381976288}
   m_Layer: 0
   m_Name: Saw
   m_TagString: Untagged
@@ -151,8 +153,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.38418314, y: 1, z: 0.78461766}
-  m_Center: {x: -0.18429407, y: 0, z: -0.035794497}
+  m_Size: {x: 0.05644378, y: 1, z: 0.60809344}
+  m_Center: {x: -0.020424344, y: 0, z: 0.05246747}
 --- !u!114 &5238120210858558709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +168,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crack: {fileID: 1430702902082979561, guid: 68877babb6fbf3c4a957bdeebe7b8b3d, type: 3}
+  cargosCount: 0
+--- !u!114 &572545235401916648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4987754110286699113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18c9b16fddef0b41bfde1362fbc7c7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crack: {fileID: 1430702902082979561, guid: 68877babb6fbf3c4a957bdeebe7b8b3d, type: 3}
+  cargosCount: 0
+--- !u!114 &4501274446381976288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4987754110286699113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18c9b16fddef0b41bfde1362fbc7c7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crack: {fileID: 1430702902082979561, guid: 68877babb6fbf3c4a957bdeebe7b8b3d, type: 3}
+  cargosCount: 0
 --- !u!1 &8100506563472579571
 GameObject:
   m_ObjectHideFlags: 0

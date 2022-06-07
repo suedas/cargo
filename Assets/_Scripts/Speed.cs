@@ -6,7 +6,7 @@ public class Speed : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag=="last")
+        if (other.gameObject.tag=="last"|| other.gameObject.tag == "stack"|| other.gameObject.tag == "Player")
         {
             PlayerMovement.instance.speed = 20f;
         }

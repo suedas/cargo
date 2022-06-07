@@ -13,10 +13,11 @@ public class ObstacleManager : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         GameObject player = GameObject.Find("Player");
-        GameObject ss = player.transform.GetChild(player.transform.childCount - 1).gameObject;
-        ss.tag = "last";
+        //GameObject ss = player.transform.GetChild(player.transform.childCount - 1).gameObject;
+        //ss.tag = "last";
         if (other.gameObject.tag == "last" || other.gameObject.tag=="stack")
         {
+            
             //PlayerMovement.instance.speed = 2f;
             PlayerController.instance.Shake();
             if (player.transform.childCount > 1)
@@ -35,39 +36,49 @@ public class ObstacleManager : MonoBehaviour
                 UiController.instance.OpenLosePanel();
             }
         }
-        else if (other.gameObject.tag=="stack")
+        else if (other.gameObject.tag=="Player")
         {
-           // StartCoroutine(stackDestroy(other.gameObject));
+
+            UiController.instance.OpenLosePanel();
         }
     }
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    PlayerMovement.instance.speed = 6f;
-    //}
+    private void OnTriggerExit(Collider other)
+    {
+        GameObject ss = PlayerController.instance.transform.GetChild(PlayerController.instance.transform.childCount - 1).gameObject;
+        ss.tag = "last";
+    }
 
 
     IEnumerator destroyCrack(GameObject obj)
     {
-        yield return new WaitForSeconds(.2f);
-       
-        Destroy(obj);
-      
-       
+        yield return new WaitForSeconds(.2f);     
+        Destroy(obj);           
     }
     IEnumerator stackDestroy(GameObject other)
     {
         yield return new WaitForSeconds(.01f);
         int num = other.gameObject.transform.GetSiblingIndex();
         cargosCount = NodeMovement.instance.cargo.Count-1;
-        Debug.Log(num);
+        int adet = cargosCount - num;
+     ;
         //other.transform.DOKill();
-        for (int i = num; i < cargosCount; i++)
-        { 
+        for (int i = 0; i < adet; i++)
+        {
             //box = Instantiate(crack, transform.position, transform.rotation);
-            Destroy(NodeMovement.instance.cargo[i].gameObject);
-            NodeMovement.instance.count--;
-            NodeMovement.instance.cargo.Remove(NodeMovement.instance.cargo[i]);
-           
+            
+            if (NodeMovement.instance.cargo[NodeMovement.instance.cargo.Count - 1] != null)
+            {
+                box = Instantiate(crack, transform.position, transform.rotation);
+                StartCoroutine(destroyCrack(box));
+                NodeMovement.instance.cargo[NodeMovement.instance.cargo.Count - 1].transform.DOKill();
+                  Destroy(NodeMovement.instance.cargo[NodeMovement.instance.cargo.Count - 1].gameObject);
+                NodeMovement.instance.count--;
+                NodeMovement.instance.cargo.Remove(NodeMovement.instance.cargo[NodeMovement.instance.cargo.Count - 1]);
+             
+            }
+
+
+
             //StartCoroutine(destroyCrack(box));
         }
     }

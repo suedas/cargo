@@ -132,72 +132,7 @@ public class PlayerController : MonoBehaviour
             //gameObject.transform.DOMove(target.transform.position, .8f);
 
     }
-    //public IEnumerator Complete(int adet)
-    //{
-    //   // yield return new WaitForSeconds(.05f);
-    //    target = GameObject.Find("completeTarget");
-    //    float y = target.transform.position.y;
-
-    //    StartCoroutine(instantiateMoney(listCount));
-
-    //    for (int i = 0; i < adet; i++)
-    //    {
-    //        //GameManager.instance.isContinue = false;
-    //        SwerveMovement.instance.swerve = false;
-    //        if (gameObject.transform.childCount > 0)
-    //        {
-    //            PlayerMovement.instance.speed = 2.8f;
-    //            gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z), 1, 1, .01f)
-    //            .OnComplete(() => gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform
-    //            );
-    //            NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-                
-    //            yield return new WaitForSeconds(.8f);
-    //            y += 1;
-               
-    //        }
-    //    }
-    //    yield return new WaitForSeconds(.05f);
-    //    // GameManager.instance.isContinue = false;
-    //    SwerveMovement.instance.swerve = false;
-
-    //    PlayerMovement.instance.speed = 4f;
-
-
-        
-    //}
-    /// <summary>
-    /// paralarý pun duvarýna gönderir.
-    /// </summary>
-    /// <param name="adet">para sayýsý</param>
-    /// <returns></returns>
     
-    //public IEnumerator duvarX(int adet)
-    //{
-    //    target = GameObject.Find("duvarTarget");
-    //    GameObject child = GameObject.Find("Cube");
-    //    float y = target.transform.position.y+.5f;
-    //    Debug.Log("çarptý");
-    //    for (int i = 0; i < adet; i++)
-    //    {
-    //        GameManager.instance.isContinue = false;
-    //        SwerveMovement.instance.swerve = false;
-    //        if (child.transform.childCount > 0)
-    //        {             
-    //           child.transform.GetChild(child.transform.childCount - 1).DOJump(new Vector3(target.transform.position.x, y, target.transform.position.z-1), 1, 1, .2f)
-    //                .OnComplete(() => child.transform.GetChild(child.transform.childCount - 1).parent = target.transform
-    //            );
-    //            yield return new WaitForSeconds(.2f);
-    //            y +=.3f;
-    //        }
-    //    }
-    //    if (child.transform.childCount == 0)
-    //    {
-    //        UiController.instance.OpenWinPanel();
-
-    //    }
-    //}
-
   /// <summary>
   /// paketleri gönderdikçe o6yuncunun eline para gönderir.
   /// </summary>
