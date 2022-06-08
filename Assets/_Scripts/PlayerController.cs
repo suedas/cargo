@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     public GameObject duvarTarget;
     public GameObject cameraLookAt;
     public GameObject firstCube;
+   
+    public Animator anim;
     
    // public int listCount;
    // public int duvarChild;
@@ -196,7 +198,8 @@ public class PlayerController : MonoBehaviour
         vcam.LookAt = cameraTarget.transform;
         vcam.Follow = cameraTarget.transform;
         vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0, 1, -9f);
-        StartCoroutine(instantiateMoney(target.transform.childCount * 2));
+        int money = target.transform.childCount;
+        StartCoroutine(instantiateMoney(money*2));
     }
 
     /// <summary>
@@ -207,6 +210,8 @@ public class PlayerController : MonoBehaviour
 
     public void PreStartingEvents()
 	{
+        StartCoroutine(AllahBelaný());
+        Debug.Log(NodeMovement.instance.cargo.Count);
         PlayerMovement.instance.transform.position = Vector3.zero;
         GameManager.instance.isContinue = false;
         SwerveMovement.instance.swerve = true;
@@ -215,10 +220,12 @@ public class PlayerController : MonoBehaviour
         //vcam.transform.SetPositionAndRotation(new Vector3(0, 7.68f, -7.06f), Quaternion.Euler(new Vector3(0.8f,0,0)));
         //vcam.enabled = true;
         
-        firstCube.transform.localPosition = Vector3.zero;
+        firstCube.transform.localPosition = new Vector3(0,-0.8f,0);
         vcam.LookAt = cameraLookAt.transform;
         vcam.Follow = transform;
         vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0, 7.68f, -9f);
+
+
 
     }
 
@@ -226,14 +233,31 @@ public class PlayerController : MonoBehaviour
     /// taptostart butonuna týklanýnca (ya da oyun basi ilk dokunus) karakter kosmaya baslar, belki hizi ayarlanýr, animasyon scale rotate
     /// gibi degerleri degistirilecekse onlar bu fonksiyon icinde yapilir...
     /// </summary>
+
     public void PostStartingEvents()
 	{
+
         GameManager.instance.levelScore = 0;
         GameManager.instance.isContinue = true;
         SwerveMovement.instance.swerve =true;
         PlayerMovement.instance.speed = 10f;
+        anim.SetBool("anim", true);
 
 
+    }
+    public IEnumerator AllahBelaný()
+    {
+        int list = NodeMovement.instance.cargo.Count;
+        Debug.Log(list);
+
+        for (int i = 1; i < list; i++)
+        {
+            NodeMovement.instance.count--;
+            NodeMovement.instance.cargo.Remove(transform.GetChild(transform.childCount - 1).gameObject);
+            Destroy(transform.GetChild(transform.childCount - 1).gameObject);
+            yield return new WaitForSeconds(.001f);
+
+        }
     }
     public IEnumerator Shake()
     {

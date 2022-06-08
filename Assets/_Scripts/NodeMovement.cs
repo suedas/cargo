@@ -26,6 +26,7 @@ public class NodeMovement : MonoBehaviour
         other.transform.parent = transform;
         Vector3 newPos = cargo[index].transform.localPosition;
         newPos.z += 1;
+        newPos.y = 0f;
         other.transform.localPosition = newPos;
         cargo.Add(other);
         count = cargo.Count - 1;     

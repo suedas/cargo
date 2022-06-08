@@ -102,6 +102,8 @@ public class UiController : MonoBehaviour
 		moneyText.text = (money*x).ToString();
 		 totalScore = Convert.ToInt32(scoreText.text) + Convert.ToInt32(moneyText.text);
 		scoreText.text = totalScore.ToString();
+	   PlayerController.instance.anim.SetBool("anim", false);
+
 	}
 
 
@@ -111,6 +113,10 @@ public class UiController : MonoBehaviour
 		PlayerMovement.instance.speed = 0;
 		GameManager.instance.isContinue = false;
 		SwerveMovement.instance.swerve = false;
-		
+		PlayerController.instance.anim.SetBool("anim", false);
+		PlayerController.instance.anim.SetBool("idle", true);
+
+
+
 	}
 }

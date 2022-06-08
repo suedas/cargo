@@ -2001,8 +2001,17 @@ PrefabInstance:
       propertyPath: target3
       value: 
       objectReference: {fileID: 1819232201061140894}
+    - target: {fileID: 2539936070178647493, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+      propertyPath: paketText
+      value: 
+      objectReference: {fileID: 1571419183798322865}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+--- !u!1 &1571419183798322865 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6111372336281614630, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}
+  m_PrefabInstance: {fileID: 4684088509776953239}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5612197721345527816 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 928781358169386911, guid: 8cdd7d7475f909b47b35da2c3b49dbf2, type: 3}

@@ -9,9 +9,11 @@ public class xray : MonoBehaviour
     public Material xrayTexture;
     float speed = 5f;
     public GameObject target;
+	
 
+	
 
-    void Update()
+	void Update()
     {
         xrayTexture.mainTextureOffset = new Vector2(-speed * Time.deltaTime, 0);
     }
@@ -19,6 +21,7 @@ public class xray : MonoBehaviour
 	{
 		if (other.CompareTag("last"))
 		{
+			Debug.Log("giriþ yapýldý");
 			PlayerMovement.instance.speed = 5f;
 			if (PlayerController.instance.transform.childCount > 1)
 			{
@@ -31,14 +34,16 @@ public class xray : MonoBehaviour
 				ss.tag = "last";
 				}
 				NodeMovement.instance.cargo.Remove(other.gameObject);
-				other.gameObject.transform.DOMove(target.transform.position, .6f)
-					  .OnComplete(() => other.transform.parent = target.transform);
-				
+				other.gameObject.transform.DOMove(target.transform.position, .6f);
+				other.transform.parent = target.transform;
+			
 			}
 
 		}
 		else if (other.CompareTag("Player"))
 		{
+			//int money = target.transform.childCount;
+
 			PlayerController.instance.WinEvent();
 		}
 	}
