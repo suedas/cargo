@@ -32,18 +32,37 @@ public class TaskManager : MonoBehaviour
                         GetComponent<Collider>().enabled = false;
                         StartCoroutine(taskComplete());
                     }
+                 
 
-                    StartCoroutine(DelayAndJump(other.gameObject, c));
+
+                StartCoroutine(DelayAndJump(other.gameObject, c));
                     other.tag = "Untagged";
 
-              
-          
+                Debug.Log(PlayerController.instance.transform.childCount);
+                   
             }
-            else if(c <= maxCargoCount && PlayerController.instance.transform.childCount == 1)
-            {
-                UiController.instance.OpenLosePanel();
-            }                    
+
+            //else if (c < maxCargoCount && PlayerController.instance.transform.childCount == 1)
+            //{
+
+            //    UiController.instance.OpenLosePanel();
+
+
+            //}
+
         }
+        else if ((other.gameObject.CompareTag("Player") && NodeMovement.instance.cargo.Count == 1))
+        {
+            Debug.Log("aaaaaa");
+             if (c < maxCargoCount && PlayerController.instance.transform.childCount == 1)
+             {
+
+                UiController.instance.OpenLosePanel();
+
+
+             }
+        }
+
     }
 
     IEnumerator DelayAndJump(GameObject obj, int count)
