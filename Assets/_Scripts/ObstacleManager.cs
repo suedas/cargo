@@ -13,8 +13,6 @@ public class ObstacleManager : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         GameObject player = GameObject.Find("Player");
-        //GameObject ss = player.transform.GetChild(player.transform.childCount - 1).gameObject;
-        //ss.tag = "last";
         if (other.gameObject.tag == "last" || other.gameObject.tag=="stack")
         {
             
@@ -22,14 +20,7 @@ public class ObstacleManager : MonoBehaviour
             PlayerController.instance.Shake();
             if (player.transform.childCount > 1)
             {
-                //box = Instantiate(crack, transform.position, transform.rotation);
-                //NodeMovement.instance.count--;
-                //NodeMovement.instance.cargo.Remove(other.gameObject);       
-               // StartCoroutine(destroyCrack(box));
-               // Destroy(other.gameObject);
                 StartCoroutine(stackDestroy(other.gameObject));
-
-
             }
             else
             {

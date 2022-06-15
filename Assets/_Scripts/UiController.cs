@@ -37,9 +37,6 @@ public class UiController : MonoBehaviour
 		tapToStartPanel.SetActive(true);
 		PlayerController.instance.PreStartingEvents();
 		LevelController.instance.NextLevelEvents();
-		//GameManager.instance.isContinue = true;
-		//SwerveMovement.instance.swerve = true;
-		//PlayerMovement.instance.speed = 4f;
 
 	}
 
@@ -50,10 +47,6 @@ public class UiController : MonoBehaviour
 		//GameManager.instance.isContinue = false;
 		PlayerController.instance.PreStartingEvents();
 		LevelController.instance.RestartLevelEvents();
-		
-		//SwerveMovement.instance.swerve = true;
-		//PlayerMovement.instance.speed = 4f;
-
 	}
 
 	public void SetScoreText()
@@ -67,25 +60,11 @@ public class UiController : MonoBehaviour
 	IEnumerator SetScoreTextAnim()
 	{
 		int tempScore = int.Parse(scoreText.text);
-		//if(tempScore < GameManager.instance.score)
-		//{
-			//while (tempScore < GameManager.instance.score)
-			//{
+		
 				tempScore++;
 				scoreText.text =tempScore.ToString();
 				yield return new WaitForSeconds(.05f);
-			//}
-		//}
-		//else if(tempScore > GameManager.instance.score)
-		//{
-			//while (tempScore > GameManager.instance.score)
-			//{
-			//	tempScore--;
-			//	scoreText.text = tempScore.ToString();
-			//	yield return new WaitForSeconds(.05f);
-			//}
 		
-		//}		
 	}
 
 	public void SetLevelText()
@@ -105,7 +84,6 @@ public class UiController : MonoBehaviour
 	   PlayerController.instance.anim.SetBool("anim", false);
 
 	}
-
 
 	public void OpenLosePanel()
 	{

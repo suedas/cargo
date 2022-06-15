@@ -16,19 +16,12 @@ public class LevelController : MonoBehaviour
 	public List<GameObject> LevelPrefabs = new();
 
 	public int currentLevelNo, totalLevelNo;
-	// ui kýsmýna totallevelno yazdýrýlýyor.. currentlevelno sadece level objelerinin instantiate edilmesini kontrol ediyor..
-
 	public GameObject currentLevelObj;
 
 	private void Start()
 	{
 		PlayerPrefs.DeleteAll();
 		totalLevelNo = PlayerPrefs.GetInt("totallevelno");
-		//if (totalLevelNo == 0)
-		//{
-		//	totalLevelNo = 1;
-		//	PlayerPrefs.SetInt("totallevelno", totalLevelNo);
-		//}
 		totalLevelNo = 1;
 		CreateLevel();
 

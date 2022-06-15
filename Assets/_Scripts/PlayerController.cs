@@ -20,15 +20,11 @@ public class PlayerController : MonoBehaviour
     public GameObject target;
     public CinemachineVirtualCamera vcam;
     public GameObject money;
-   // public GameObject moneyTarget;
     public GameObject duvarTarget;
     public GameObject cameraLookAt;
     public GameObject firstCube;
    
     public Animator anim;
-    
-   // public int listCount;
-   // public int duvarChild;
  
     private void OnTriggerEnter(Collider other)
     {
@@ -67,98 +63,14 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.CompareTag("obstacle"))
         {
-            // score islemleri.. animasyon.. efect.. obstaclein destroy edilmesi.. 
-            // oyun bitebilir bunun kontrolu de burada yapilabilir..
             GameManager.instance.DecreaseScore();
         }
         else if (other.CompareTag("finish"))
-        {
-            // oyun sonu olaylari... animasyon.. score.. panel acip kapatmak
-            // oyunu kazandi mi kaybetti mi kontntrolu gerekirse yapilabilir.
-            // player durdurulur. tagi finish olan obje level prefablarinin icinde yolun sonundadýr.
-            // ornek olarak asagidaki kodda score 10 dan buyukse kazan degilse kaybet dedik ancak
-            // bazý oyunlarda farkli parametlere göre kontrol etmek veya oyun sonunda karakterin yola devam etmesi gibi
-            // durumlarda developer burayý kendisi duzenlemelidir.
+        {        
             SwerveMovement.instance.swerve = false;
-
-            // target = GameObject.Find("completeTarget");
-            //  listCount = NodeMovement.instance.cargo.Count-1;
-            // Debug.Log(listCount);
-
-            //Tamamla();
-           // StartCoroutine(complete());
-            //vcam.enabled = false;
-            //vcam.transform.SetPositionAndRotation(new Vector3(0, 0, 0), Quaternion.identity);
-            //vcam.enabled = true;
-
-
-        }
-       
-       
-
+        }            
     }
 
-
-    void Tamamla()
-	{
-        target = GameObject.Find("completeTarget");
-        foreach (GameObject obj in NodeMovement.instance.cargo)
-		{
-
-			if (!obj.transform.CompareTag("Player"))
-			{
-                obj.transform.DOKill();
-                obj.transform.DOMove(target.transform.position, .3f).OnComplete(() => obj.transform.parent = target.transform);
-            }
-            else
-            {
-                GameObject cameraTarget = GameObject.Find("cameraTarget");
-                duvarTarget = GameObject.Find("duvarTarget");
-                PlayerMovement.instance.speed = 0;
-                vcam.LookAt = cameraTarget.transform;
-                vcam.Follow = cameraTarget.transform;
-                vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0, 1, -9f);
-                StartCoroutine(instantiateMoney(target.transform.childCount * 2));
-            }
-        }
-	}
-
-
-    /// <summary>
-    /// fnish çizgizine geldiðinde elindeki paketleri makineye gönderir.
-    /// </summary>
-    /// <param name="adet">elindeki paket sayýsý</param>
-    /// <returns></returns>
-
-    public IEnumerator complete()
-    {
-        //yield return new WaitForSeconds(.05f);
-        PlayerMovement.instance.speed = 3f;
-        target = GameObject.Find("completeTarget");
-
-        if (transform.childCount > 1)
-        {
-            gameObject.transform.GetChild(gameObject.transform.childCount - 1).DOMove(target.transform.position, .2f).OnComplete(()=> gameObject.transform.GetChild(gameObject.transform.childCount - 1).parent = target.transform);
-            NodeMovement.instance.count--;
-            NodeMovement.instance.cargo.Remove(gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject);
-            yield return new WaitForSeconds(.2f);
-            //gameObject.transform.GetChild(gameObject.transform.childCount - 1).gameObject.SetActive(false);
-        }
-        else
-        {
-            GameObject cameraTarget = GameObject.Find("cameraTarget");
-            PlayerMovement.instance.speed = 0;
-            vcam.LookAt = cameraTarget.transform;
-            vcam.Follow = cameraTarget.transform;
-            vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0, 1, -9f);
-            StartCoroutine(instantiateMoney(target.transform.childCount*2));
-        }
-
-           
-            //gameObject.transform.DOMove(target.transform.position, .8f);
-
-    }
-    
   /// <summary>
   /// paketleri gönderdikçe o6yuncunun eline para gönderir.
   /// </summary>
@@ -214,16 +126,12 @@ public class PlayerController : MonoBehaviour
         Debug.Log(NodeMovement.instance.cargo.Count);
         PlayerMovement.instance.transform.position = Vector3.zero;
         GameManager.instance.isContinue = false;
-        SwerveMovement.instance.swerve = true;
-        //kamerayý düzeltmiyor
-        //vcam.enabled = false;
-        //vcam.transform.SetPositionAndRotation(new Vector3(0, 7.68f, -7.06f), Quaternion.Euler(new Vector3(0.8f,0,0)));
-        //vcam.enabled = true;
-        
+        SwerveMovement.instance.swerve = true;    
         firstCube.transform.localPosition = new Vector3(0,-0.8f,0);
         vcam.LookAt = cameraLookAt.transform;
         vcam.Follow = transform;
         vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0, 7.68f, -9f);
+        anim.SetBool("idle", true);
 
 
 
