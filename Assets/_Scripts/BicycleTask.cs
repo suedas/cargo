@@ -33,7 +33,7 @@ public class BicycleTask : MonoBehaviour
 
                 if (gameObject.transform.childCount == total)
                 {
-                    Debug.Log("task");
+
                     StartCoroutine(taskComplete());
 
                 }

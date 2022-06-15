@@ -55,7 +55,6 @@ public class LevelController : MonoBehaviour
 		totalLevelNo++;
 		PlayerPrefs.SetInt("totallevelno", totalLevelNo);
 		CreateLevel();
-		Debug.Log(totalLevelNo);
 	}
 
 	public void RestartLevelEvents()

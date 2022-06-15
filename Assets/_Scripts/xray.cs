@@ -18,7 +18,6 @@ public class xray : MonoBehaviour
 	{
 		if (other.CompareTag("last"))
 		{
-			Debug.Log("giriþ yapýldý");
 			PlayerMovement.instance.speed = 5f;
 			if (PlayerController.instance.transform.childCount > 1)
 			{

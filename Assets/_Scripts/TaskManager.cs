@@ -21,7 +21,6 @@ public class TaskManager : MonoBehaviour
     {
         if (other.gameObject.CompareTag("last")&& NodeMovement.instance.cargo.Count>1)
         {
-            Debug.Log("girdi");
             //PlayerMovement.instance.speed = 2f;
             if (c < maxCargoCount && PlayerController.instance.transform.childCount>1)
             {
@@ -31,7 +30,6 @@ public class TaskManager : MonoBehaviour
                     if (c == maxCargoCount)
                     {
                         GetComponent<Collider>().enabled = false;
-                        Debug.Log("dronetask");
                         StartCoroutine(taskComplete());
                     }
 
@@ -43,7 +41,6 @@ public class TaskManager : MonoBehaviour
             }
             else if(c <= maxCargoCount && PlayerController.instance.transform.childCount == 1)
             {
-                Debug.Log("burda");
                 UiController.instance.OpenLosePanel();
             }                    
         }
@@ -75,7 +72,6 @@ public class TaskManager : MonoBehaviour
         // PlayerMovement.instance.speed = 6f;
         if (PlayerController.instance.transform.childCount >=1)
         {
-            Debug.Log("hizlandi");
             if (isParticle == true)
             {
                 efect.SetActive(true);
