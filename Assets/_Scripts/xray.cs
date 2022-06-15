@@ -7,11 +7,12 @@ using DG.Tweening;
 public class xray : MonoBehaviour
 {
     public Material xrayTexture;
-    float speed = 5f;
+    float speed = 2f;
     public GameObject target;
-	void Update()
+	void FixedUpdate()
     {
-        xrayTexture.mainTextureOffset = new Vector2(-speed * Time.deltaTime, 0);
+       // xrayTexture.mainTextureOffset = new Vector2(xrayTexture.mainTextureOffset.x -speed * Time.deltaTime, 0);
+        xrayTexture.mainTextureOffset = new Vector2(speed * Time.time, 0);
     }
 	private void OnTriggerEnter(Collider other)
 	{
