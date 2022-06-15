@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
 
     public void PreStartingEvents()
 	{
-        StartCoroutine(AllahBelaný());
+        StartCoroutine(xray());
         Debug.Log(NodeMovement.instance.cargo.Count);
         PlayerMovement.instance.transform.position = Vector3.zero;
         GameManager.instance.isContinue = false;
@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
 
     }
-    public IEnumerator AllahBelaný()
+    public IEnumerator xray()
     {
         int list = NodeMovement.instance.cargo.Count;
         Debug.Log(list);
