@@ -152,6 +152,7 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
     public IEnumerator xray()
     {
         int list = NodeMovement.instance.cargo.Count;
